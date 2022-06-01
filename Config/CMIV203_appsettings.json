@@ -1,0 +1,76 @@
+{
+  "SystemName": "CGL Diamond Color Grading Instruments",
+  "SystemModel": "CMIV2",
+  "SystemVersion": "2.0.0",
+  "AppVersion": "2.0.0",
+  "SerialNumber": "203",
+  "LatestDate": "2021/02/12 16:19:43",
+  "CalibrationLatestDate": {
+    "Whitepoint": "2021/02/12 16:19:48",
+    "Opticalpower": "2021/1/25 10:02:00",
+    "CameraShading": "2021/1/25 10:02:00"
+  },
+  "MeasureCondition": {
+    "AutoCalibrateStartup": true,
+    "AutoCalibrateWhitepoint": true,
+    "Matrix": [
+      [
+        1.252050689,
+        -0.543316158,
+        0.206768257
+      ],
+      [
+        0.433637251,
+        0.543503786,
+        0.006487535
+      ],
+      [
+        -0.006018613,
+        0.034134977,
+        0.969384053
+      ]
+    ],
+    "ExposureTime": 1,
+    "Integration": 8,
+    "MeasurePoint": 8,
+    "ShadingPixels": "shd.raw",
+    "LEDValues": [
+      620,
+      550
+    ],
+    "Whitepoint": [
+      0,
+      0,
+      0
+    ],
+    "WhitepointForCorrect": [
+      0,
+      0,
+      0
+    ],
+    "Opticalpower": 0,
+    "Colorgrading": "colorgrade.txt",
+    "DefaultLEDValues": [
+      850,
+      730
+    ],
+    "DefaultWhitepoint": [
+      100,
+      100,
+      100
+    ],
+    "DefaultWhitepointForCorrect": [
+      100,
+      100,
+      100
+    ],
+    "OpticalpowerFactor": 0.01939
+  },
+  "MeasureResultOutputOption": {
+    "OutputPath": "MES",
+    "ColorGradingResultOutput": true,
+    "ColorGradingPixelsOutput": false,
+    "ColorMeasuringResultOutput": true,
+    "ColorMeasuringPixelsOutput": false
+  }
+}
