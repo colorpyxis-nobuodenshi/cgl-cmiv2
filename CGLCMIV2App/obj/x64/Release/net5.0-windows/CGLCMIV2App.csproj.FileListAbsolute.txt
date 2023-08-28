@@ -14,7 +14,6 @@ D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windo
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\CGLCMIV2App.runtimeconfig.json
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\CGLCMIV2App.runtimeconfig.dev.json
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\CGLCMIV2App.dll
-D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\ref\CGLCMIV2App.dll
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\CGLCMIV2App.pdb
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\MaterialDesignColors.dll
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\MaterialDesignThemes.Wpf.dll
@@ -209,3 +208,4 @@ D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2_21 - コピー\CGLCMIV2App\obj\x64\Relea
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2_21 - コピー\CGLCMIV2App\obj\x64\Release\net5.0-windows\CGLCMIV2App.genruntimeconfig.cache
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\bin\x64\Release\net5.0-windows\RawInput.Sharp.dll
 D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\obj\x64\Release\net5.0-windows\CGLCMIV2App.csproj.CopyComplete
+D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2App\obj\x64\Release\net5.0-windows\refint\CGLCMIV2App.dll

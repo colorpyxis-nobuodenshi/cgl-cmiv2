@@ -313,7 +313,7 @@ namespace CGLCMIV2App
                         case RawInputKeyboardData keyboard:
                             if (keyboard.Keyboard.WindowMessage == WM_KEYDOWN)
                             {
-                                if (keyboard.Device.VendorId == 1211 && keyboard.Device.ProductId == 3868)
+                                //if (keyboard.Device.VendorId == 1211 && keyboard.Device.ProductId == 3868)
                                 {
                                     var key = keyboard.Keyboard.VirutalKey;
 
@@ -333,7 +333,12 @@ namespace CGLCMIV2App
                                     }
 
                                     if (key != VK_SHIFT)//SHIFT KEY
-                                        barcode += ((char)keyboard.Keyboard.VirutalKey).ToString();
+                                    {
+                                        if ((key >= 0x30 && key <= 0x39) || (key >= 0x41 && key <= 0x5A))
+                                        {
+                                            barcode += ((char)keyboard.Keyboard.VirutalKey).ToString();
+                                        }
+                                    }
                                 }
                             }
                             break;

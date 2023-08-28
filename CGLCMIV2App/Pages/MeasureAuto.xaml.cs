@@ -198,11 +198,11 @@ namespace CGLCMIV2App
 
             async void StartAutoGrading(string sn)
             {
-                if (sn.Length != 8)
-                {
-                    MessageBox.Show("バーコードの読み取りに失敗しました.");
-                    return;
-                }
+                //if (sn.Length != 8)
+                //{
+                //    MessageBox.Show("バーコードの読み取りに失敗しました.");
+                //    return;
+                //}
                 if (autogradingStarted)
                     return;
 
@@ -252,27 +252,57 @@ namespace CGLCMIV2App
                         case RawInputKeyboardData keyboard:
                             if (keyboard.Keyboard.WindowMessage == WM_KEYDOWN)
                             {
-                                if (keyboard.Device.VendorId == 1211 && keyboard.Device.ProductId == 3868)
+                                //if (keyboard.Device.VendorId == 1211 && keyboard.Device.ProductId == 3868)
+                                //{
+                                //    var key = keyboard.Keyboard.VirutalKey;
+
+                                //    if (key == VK_TAB)
+                                //    {
+                                //        barcode = barcode.Trim();
+                                //        StartAutoGrading(barcode);
+                                //        barcode = string.Empty;
+                                //    }
+
+                                //    if (key != VK_SHIFT)
+                                //    {
+                                //        barcode += ((char)keyboard.Keyboard.VirutalKey).ToString();
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    var key = keyboard.Keyboard.VirutalKey;
+                                //    HandleKeyPress(key);
+                                //}
+                                var key = keyboard.Keyboard.VirutalKey;
+
+                                if (key == VK_TAB)
                                 {
-                                    var key = keyboard.Keyboard.VirutalKey;
-
-                                    if (key == VK_TAB)
+                                    barcode = barcode.Trim();
+                                    if (barcode.Length != 8)
                                     {
-                                        barcode = barcode.Trim();
-                                        StartAutoGrading(barcode);
+                                        MessageBox.Show("バーコードの読み取りに失敗しました.");
                                         barcode = string.Empty;
+                                        break;
                                     }
+                                    //if (!Char.IsLetter(barcode.Substring(0, 1).ToCharArray()[0]))
+                                    //{
+                                    //    MessageBox.Show("バーコードの読み取りに失敗しました.");
+                                    //    break;
+                                    //}
+                                    StartAutoGrading(barcode);
+                                    barcode = string.Empty;
+                                    break;
+                                }
 
-                                    if (key != VK_SHIFT)
+                                if (key != VK_SHIFT)
+                                {
+                                    if ((key >= 0x30 && key <= 0x39) || (key >= 0x41 && key <= 0x5A))
                                     {
                                         barcode += ((char)keyboard.Keyboard.VirutalKey).ToString();
                                     }
                                 }
-                                else
-                                {
-                                    var key = keyboard.Keyboard.VirutalKey;
-                                    HandleKeyPress(key);
-                                }
+
+                                HandleKeyPress(key);
                             }
                             break;
                         case RawInputHidData hid:
