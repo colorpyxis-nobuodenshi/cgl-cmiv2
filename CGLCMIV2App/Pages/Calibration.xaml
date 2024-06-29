@@ -10,53 +10,8 @@
         
         <ScrollViewer>
             <StackPanel>
-            <!--<StackPanel Margin="5,20,0,0">
-                <TextBlock Style="{StaticResource Header24}">白色照明</TextBlock>
-                <Separator/>
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock  FontSize="16" TextWrapping="Wrap">白色照明のキャリブレーションをします。各LEDの光量を測定して最適な白色照明光になるように補正します。</TextBlock>
-                            <StackPanel Margin="30 15">
-                                <TextBlock Margin="5" TextWrapping="Wrap">前回実行日時： <TextBlock x:Name="CalibrateDateWhite" Text="2018/2/10 10:00"></TextBlock></TextBlock>
-                                <TextBlock Margin="5" TextWrapping="Wrap">輝度： <TextBlock TextWrapping="Wrap" x:Name="CalibrateWhiteQov" Text="0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00"></TextBlock></TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-                    <StackPanel Grid.Column="1" >
-                        <Button Width="100" Height="50" Margin="1" Click="ButtonScanD65_Click">スキャン</Button>
-                        <Button Width="100" Height="50"  Margin="1" Click="ButtonCalibrateD65_Click">補正</Button>
-                    </StackPanel>
-                    
-                </Grid>
-
-            </StackPanel>-->
-            <!--<StackPanel Margin="5,20,0,0">
-                <TextBlock Style="{StaticResource Header24}">UV照明</TextBlock>
-                <Separator/>
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock FontSize="16"  TextWrapping="Wrap">UV照明のキャリブレーションをします。LEDの光量を測定して最適なUV光量になるように調整します。</TextBlock>
-                            <StackPanel Margin="30 15">
-                                <TextBlock Margin="5" TextWrapping="Wrap">前回実行日時： <TextBlock x:Name="CalibrateDateUV" Text="2018/2/10 10:00"></TextBlock></TextBlock>
-                                <TextBlock Margin="5" TextWrapping="Wrap">輝度： <TextBlock  x:Name="CalibrateUVQov" Text="0.00"></TextBlock></TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-                    <StackPanel Grid.Column="1" >
-                        <Button Width="100" Height="50" Margin="1" Click="ButtonScanUV_Click">スキャン</Button>
-                        --><!--<Button Width="100" Height="50"  Margin="1" Click="ButtonCalibrateUV_Click">実行</Button>--><!--
-                    </StackPanel>
-                </Grid>
-
-            </StackPanel>-->
                 <StackPanel Margin="5,20,0,0">
-                    <TextBlock Style="{StaticResource Header24}">LED照明</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">LED light</TextBlock>
                     <Separator/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -64,28 +19,28 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock FontSize="16"  TextWrapping="Wrap">LED照明のキャリブレーションをします。LEDの光量を測定して最適な白色光量、UV光量になるように調整します。調整した場合は白色点を再度取得してください。</TextBlock>
+                            <TextBlock FontSize="16"  TextWrapping="Wrap">Calibrate the LED lighting. Measures the light intensity of the LED and adjusts it to the optimal white light intensity and UV light intensity. If you have made any adjustments, please obtain the white point again.</TextBlock>
                             <StackPanel Margin="30 15">
-                                <TextBlock Margin="5" TextWrapping="Wrap">前回実行日時： <TextBlock x:Name="CalibrateDateLED" Text="2018/2/10 10:00"></TextBlock></TextBlock>
+                                <TextBlock Margin="5" TextWrapping="Wrap">Last execution date and time : <TextBlock x:Name="CalibrateDateLED" Text="2018/2/10 10:00"></TextBlock></TextBlock>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="100">白色明るさ</TextBlock>
+                                    <TextBlock Width="120">white brightness</TextBlock>
                                     <TextBox x:Name="txtLEDD65" Text="0" Width="100" TextAlignment="Right"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock  Width="100">UV明るさ</TextBlock>
+                                    <TextBlock  Width="120">UV brightness</TextBlock>
                                     <TextBox x:Name="txtLEDUV" Text="0" Width="100" TextAlignment="Right"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="100" Height="50" Margin="1" x:Name="btnLEDSet">セット</Button>
-                            <Button Width="100" Height="50" Margin="1" x:Name="btnLEDDefault">初期値</Button>
+                            <Button Width="120" Height="50" Margin="1" x:Name="btnLEDSet">Set</Button>
+                            <Button Width="120" Height="50" Margin="1" x:Name="btnLEDDefault">Default</Button>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Margin="5,20,0,0">
-                <TextBlock Style="{StaticResource Header24}">白色点</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">White point</TextBlock>
                 <Separator/>
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -93,21 +48,23 @@
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <TextBlock FontSize="16"  TextWrapping="Wrap">白色点を測定します。CIE L*a*b*、L*C*h*計算時の基本データとなるので照明が変わったらキャリブレーションをすることをお勧めします。</TextBlock>
+                            <TextBlock FontSize="16"  TextWrapping="Wrap">Measure the white point. Since this is the basic data when calculating CIE L*a*b* and L*C*h*, we recommend calibrating it when the lighting changes.</TextBlock>
                             <StackPanel Margin="30 15">
-                                <TextBlock Margin="5" TextWrapping="Wrap">前回実行日時： <TextBlock x:Name="CalibrateDateWhitepoint" Text="2018/2/10 10:00"></TextBlock></TextBlock>
+                                <TextBlock Margin="5" TextWrapping="Wrap">Last execution date and time : <TextBlock x:Name="CalibrateDateWhitepoint" Text="2018/2/10 10:00"></TextBlock></TextBlock>
                                 <TextBlock Margin="5" TextWrapping="Wrap">CIE XYZ： <TextBlock x:Name="CalibrateWhitepoint" Text="450 , 450 , 450          (450 , 450 , 450)"></TextBlock></TextBlock>
                                 <TextBlock Margin="5" TextWrapping="Wrap">CIE Yxy： <TextBlock x:Name="CalibrateWhitepointYxy" Text="450 , 0.000 , 0.000          (450 , 0.000 , 0.000)"></TextBlock></TextBlock>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <Button  Width="100"  Height="50" Cursor="Hand" x:Name="btnGetWhitepoint">白色点取得</Button>
+                            <Button  Width="120"  Height="50" Cursor="Hand" x:Name="btnGetWhitepoint">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">White point<LineBreak/>acquisition</TextBlock>
+                            </Button>
                         </StackPanel>
                     </Grid>
 
             </StackPanel>
                 <StackPanel Margin="5,20,0,0">
-                    <TextBlock Style="{StaticResource Header24}">感度むら</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">Uneven sensitivity</TextBlock>
                     <Separator/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -115,19 +72,19 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock FontSize="16"  TextWrapping="Wrap">カメラのレンズ、センサーの感度むらを補正するデータを作成します。</TextBlock>
+                            <TextBlock FontSize="16"  TextWrapping="Wrap">Create data to correct uneven sensitivity of camera lenses and sensors.</TextBlock>
                             <StackPanel Margin="30 15">
-                                <TextBlock Margin="5" TextWrapping="Wrap">前回実行日時： <TextBlock x:Name="CalibrateDateShading" Text="2018/2/10 10:00"></TextBlock></TextBlock>
+                                <TextBlock Margin="5" TextWrapping="Wrap">Last execution date and time :  <TextBlock x:Name="CalibrateDateShading" Text="2018/2/10 10:00"></TextBlock></TextBlock>
                                 
                             </StackPanel>
                         </StackPanel>
-                        <Button Grid.Column="1" Width="100"  Height="50"  x:Name="btnMakeShadingCorrectPixels" Cursor="Hand">実行</Button>
+                        <Button Grid.Column="1" Width="120"  Height="50"  x:Name="btnMakeShadingCorrectPixels" Cursor="Hand">Execute</Button>
                     </Grid>
 
                 </StackPanel>
 
                 <StackPanel Margin="5,20,0,0">
-                    <TextBlock Style="{StaticResource Header24}">測定視野の調整</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">Adjustment of measurement field of view</TextBlock>
                     <Separator/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -136,20 +93,20 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
 
-                            <TextBlock FontSize="16" TextWrapping="Wrap">ダイヤモンドが中心にくるように調整してください。</TextBlock>
+                            <TextBlock FontSize="16" TextWrapping="Wrap">Adjust so that the diamond is in the center.</TextBlock>
                             <ScrollViewer Width="512" Height="348" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="svwCameraPixels">
                                 <Image Width="512" Height="348" x:Name="imgCameraPixels"  Stretch="Fill"></Image>
                             </ScrollViewer>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="100"  Height="50" Content="開始" x:Name="btnCameraLiveStart"/>
-                            <Button Width="100"  Height="50" Content="停止" x:Name="btnCameraLiveStop" IsEnabled="False"/>
-                            <Button Width="100"  Height="50" Content="取込" x:Name="btnCameraSnap"/>
+                            <Button Width="120"  Height="50" Content="Start" x:Name="btnCameraLiveStart"/>
+                            <Button Width="120"  Height="50" Content="Stop" x:Name="btnCameraLiveStop" IsEnabled="False"/>
+                            <Button Width="120"  Height="50" Content="Capture" x:Name="btnCameraSnap"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
                 <StackPanel Margin="5,20,0,0">
-                    <TextBlock Style="{StaticResource Header24}">位置決めステージ</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">Positioning stage</TextBlock>
                     <Separator/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -158,11 +115,15 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
 
-                            <TextBlock FontSize="16" TextWrapping="Wrap">位置決めステージの機械原点復帰および原点復帰をします</TextBlock>
+                            <TextBlock FontSize="16" TextWrapping="Wrap">Performs mechanical origin return and origin return of the positioning stage.</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageOrg">機械原点復帰</Button>
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageHome">原点復帰</Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageOrg">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Machine home return</TextBlock>
+                            </Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageHome">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Return to origin</TextBlock>
+                            </Button>
                         </StackPanel>
 
 
@@ -174,11 +135,15 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock FontSize="16" TextWrapping="Wrap">位置決めステージの上下移動をします</TextBlock>
+                            <TextBlock FontSize="16" TextWrapping="Wrap">Moves the positioning stage up and down</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageMeasurepoint">測定位置</Button>
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageWorksetpoint">ワーク位置</Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageMeasurepoint">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Measurement position</TextBlock>
+                            </Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageWorksetpoint">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Work position</TextBlock>
+                            </Button>
                         </StackPanel>
                     </Grid>
                     <Grid Margin="0,10,0,0">
@@ -187,12 +152,12 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock FontSize="16" TextWrapping="Wrap">ステージの回転の確認をします</TextBlock>
+                            <TextBlock FontSize="16" TextWrapping="Wrap">Check the rotation of the stage</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageRotateCW45">+45</Button>
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageRotateCCW45">-45</Button>
-                            <Button Width="100"  Height="50" x:Name="btnAutoStageRotateHome" Cursor="Hand">原点</Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateCW45">+45</Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateCCW45">-45</Button>
+                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateHome" Cursor="Hand">Origin</Button>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

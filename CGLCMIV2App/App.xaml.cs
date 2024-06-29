@@ -60,12 +60,12 @@ namespace CGLCMIV2App
             services.AddSingleton(settings.MeasureResultOutputOption);
 
             services.AddSingleton<ILogger, Logger>();
-            services.AddSingleton<ICamera, Camera>();
-            services.AddSingleton<IAutoStage, DS112>();
-            services.AddSingleton<ILEDLight, LEDLight>();
-            //services.AddSingleton<ICamera, CameraMock>();
-            //services.AddSingleton<IAutoStage, AutoStageMock>();
-            //services.AddSingleton<ILEDLight, LEDControllerMock>();
+            //services.AddSingleton<ICamera, Camera>();
+            //services.AddSingleton<IAutoStage, DS112>();
+            //services.AddSingleton<ILEDLight, LEDLight>();
+            services.AddSingleton<ICamera, CameraMock>();
+            services.AddSingleton<IAutoStage, AutoStageMock>();
+            services.AddSingleton<ILEDLight, LEDControllerMock>();
             services.AddSingleton<IColorGradingConditonFileLoader, ColorGradingConditonFileLoader>();
             services.AddSingleton<IShadingPixelsFileLoader, ShadingPixelsFileLader>();
             services.AddSingleton<IShadingPixelsFileStore, ShadingPixelsFileStore>();

@@ -29,16 +29,16 @@
                     <ListBoxItem x:Name="MenuMeasureAuto">
                         <Grid Width="300" Height="200" Margin="10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="9*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="6*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">グレーディング</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">グレーディング測定をします</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">Color grading</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Perform color grading measurements</TextBlock>
                             <materialDesign:PackIcon HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Kind="Note" VerticalAlignment="Center" Width="120" Height="120"></materialDesign:PackIcon>
                         </Grid>
                         
@@ -47,16 +47,16 @@
                     <ListBoxItem  x:Name="MenuMeasureManual">
                         <Grid Width="300" Height="200" Margin="10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="9*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="6*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">測定</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">カラー測定をします</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">Measurement</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Perform color measurement</TextBlock>
                             <materialDesign:PackIcon HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Kind="Microscope" VerticalAlignment="Center" Width="120" Height="120"></materialDesign:PackIcon>
                         </Grid>
 
@@ -64,32 +64,32 @@
                     <ListBoxItem  x:Name="MenuConfiguration">
                         <Grid Width="300" Height="200" Margin="10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="9*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="6*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">コンフィグレーション</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">測定条件を確認します</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">Configuration</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Check measurement conditions</TextBlock>
                             <materialDesign:PackIcon HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Kind="Tune" VerticalAlignment="Center" Width="120" Height="120"></materialDesign:PackIcon>
                         </Grid>
                     </ListBoxItem>
                     <ListBoxItem  x:Name="MenuCalibrate">
                         <Grid Width="300" Height="200" Margin="10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="9*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="6*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">キャリブレーション</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">ハードウェアの調整と校正をします</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2">Calibration</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Adjust and calibrate hardware</TextBlock>
                             <materialDesign:PackIcon HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Kind="Adjust" VerticalAlignment="Center" Width="120" Height="120"></materialDesign:PackIcon>
                         </Grid>
                     </ListBoxItem>
@@ -97,8 +97,8 @@
                 </ListBox>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Right">
-                <!--<TextBlock TextAlignment="Right">Application Version <TextBlock x:Name="txtVersion">2.0.0</TextBlock></TextBlock>-->
-                <TextBlock>Copyright (c) 2021 ノブオ電子株式会社 All Rights Reserved.</TextBlock>
+                <TextBlock TextAlignment="Right">Application Version <TextBlock x:Name="txtVersion">2.0.0</TextBlock></TextBlock>
+                <TextBlock>Copyright (c) 2021 NOBUO ELECTRONICS CO., LTD. All Rights Reserved.</TextBlock>
             </StackPanel>
         </Grid>
     </Grid>

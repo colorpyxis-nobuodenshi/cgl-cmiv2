@@ -9,16 +9,8 @@ using CGLCMIV2.Domain;
 using ic4;
 using OpenCvSharp;
 
-namespace ConsoleApp1
+namespace CGLCMIV2.Device
 {
-    public interface IHardware { }
-    public interface ICamera : IHardware
-    {
-        XYZPixels TakePicture(int exposureTime, int integration);
-        void Start();
-        void Stop();
-        bool IsConnected { get; }
-    }
 
     public class DFK33UX264 : ICamera
     {
@@ -81,14 +73,14 @@ namespace ConsoleApp1
             _grabber?.AcquisitionStart();
 
             var image = _sink?.SnapSingle(TimeSpan.FromSeconds(1));
-            image.SaveAsTiff("temp.tiff");
+            //image.SaveAsTiff("temp.tiff");
             //image.SaveAsTiff("temp1.tiff", true);
             var mat = image.CreateOpenCvWrap();
             //mat = mat * (4095.0 / 65535.0);
             mat = mat.CvtColor(ColorConversionCodes.BayerRG2RGB, 3);
             var pix = new ushort[FRAME_SIZE];
             
-            mat.ImWrite("temp2.tiff");
+            //mat.ImWrite("temp2.tiff");
             
             unsafe
             {

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {
+    "net8.0-windows10.0.22621": {
       "ic4dotnet/1.0.2.2420": {
         "type": "package",
         "compile": {
@@ -1222,15 +1222,18 @@
       "System.Reactive/5.0.0": {
         "type": "package",
         "compile": {
-          "lib/net5.0/System.Reactive.dll": {
+          "lib/net5.0-windows10.0.19041/System.Reactive.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net5.0/System.Reactive.dll": {
+          "lib/net5.0-windows10.0.19041/System.Reactive.dll": {
             "related": ".xml"
           }
         },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ],
         "build": {
           "buildTransitive/net5.0/_._": {}
         }
@@ -5975,7 +5978,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": [
+    "net8.0-windows10.0.22621": [
       "CGLCMIV2 >= 1.0.0",
       "MaterialDesignThemes >= 3.2.0",
       "Microsoft.Extensions.Configuration >= 5.0.0",
@@ -6010,7 +6013,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows7.0"
+        "net8.0-windows10.0.22621.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -6018,8 +6021,8 @@
         "https://www.nuget.org/api/v2": {}
       },
       "frameworks": {
-        "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows7.0",
+        "net8.0-windows10.0.22621": {
+          "targetAlias": "net8.0-windows10.0.22621.0",
           "projectReferences": {
             "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2.csproj": {
               "projectPath": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2.csproj"
@@ -6039,8 +6042,8 @@
       }
     },
     "frameworks": {
-      "net8.0-windows7.0": {
-        "targetAlias": "net8.0-windows7.0",
+      "net8.0-windows10.0.22621": {
+        "targetAlias": "net8.0-windows10.0.22621.0",
         "dependencies": {
           "MaterialDesignThemes": {
             "target": "Package",
@@ -6082,8 +6085,17 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.Windows.SDK.NET.Ref",
+            "version": "[10.0.22621.31, 10.0.22621.31]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.Windows.SDK.NET.Ref": {
             "privateAssets": "all"
           },
           "Microsoft.WindowsDesktop.App.WPF": {

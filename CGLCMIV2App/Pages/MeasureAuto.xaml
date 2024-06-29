@@ -22,20 +22,20 @@
                 <Grid Grid.Column="0">
                     <StackPanel TextElement.FontSize="24">
                         <StackPanel TextBlock.TextAlignment="Center" Margin="20">
-                            <TextBlock>識別番号</TextBlock>
+                            <TextBlock>Serialnumber</TextBlock>
                             <TextBlock Text="" Name="serialNumber" Margin="0 20 0 0"/>
-                            <TextBlock  Margin="0 20 0 0">カラーグレード</TextBlock>
+                            <TextBlock  Margin="0 20 0 0">Color grade</TextBlock>
                             <TextBlock Text="" Name="colorGrade" FontSize="60" Foreground="DarkCyan"  Margin="0 20 0 0"/>
-                            <TextBlock  Margin="0 20 0 0">色相角度(h)</TextBlock>
+                            <TextBlock  Margin="0 20 0 0">Hue angle(h)</TextBlock>
                             <TextBlock Text="" Name="lchH"  Margin="0 20 0 0"/>
                         </StackPanel>
 
                         <StackPanel Margin="0">
                             <StackPanel x:Name="messagePanel1" Margin="100">
-                                <TextBlock Text="ダイヤモンドをセットしてバーコードをスキャンしてください"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="Set the diamond and scan the barcode"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
                             </StackPanel>
                             <StackPanel x:Name="messagePanel2" Margin="50">
-                                <TextBlock Text="測定中しばらくお待ちください"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="Please wait while measuring"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
                                 <Image x:Name="monitor" Width="256" Height="192"/>
                             </StackPanel>
                         </StackPanel>
@@ -48,7 +48,7 @@
                         
                         
                         <StackPanel x:Name="currentReport">
-                            <TextBlock Margin="0 20 0 0" FontSize="18">測定一覧</TextBlock>
+                            <TextBlock Margin="0 20 0 0" FontSize="18">Measurement list</TextBlock>
                         <Grid Margin="0 0 0 0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="120"/>
@@ -114,7 +114,7 @@
                         </Grid>
                         </StackPanel>
                         <StackPanel x:Name="prevReport">
-                            <TextBlock Margin="0 20 0 0" FontSize="18">履歴一覧</TextBlock>
+                            <TextBlock Margin="0 20 0 0" FontSize="18">History list</TextBlock>
                             <Grid Margin="0 0 0 0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="120"/>
@@ -181,7 +181,7 @@
                         </StackPanel>
                         <StackPanel>
                             <TextBlock FontSize="12" TextAlignment="Center" Margin="5">
-                                [F5] : スキップ [F6] : 取り消し [F7] : ロット削除 [F11] : 履歴一覧  [F12] : 測定一覧
+                                [F5] : Skip [F6] : Cancel [F7] : Lot delete [F11] : History list  [F12] : Measurement list
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>

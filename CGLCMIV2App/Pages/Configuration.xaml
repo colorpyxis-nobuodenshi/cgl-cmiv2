@@ -10,27 +10,27 @@
         <ScrollViewer Grid.Row="0" TextElement.FontSize="18">
             <StackPanel>
                 <StackPanel Margin="5,20,0,0">
-                    <TextBlock Style="{StaticResource Header24}">システム</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">System</TextBlock>
                     <Separator/>
-                    <TextBlock FontSize="14">システムの設定を確認します。</TextBlock>
+                    <TextBlock FontSize="14">Check your system settings.</TextBlock>
                     <StackPanel>
                         <Grid Margin="0 25 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Margin="0">基本情報</TextBlock>
+                            <TextBlock Grid.Column="0" Margin="0">Basic infomation</TextBlock>
                             <StackPanel Grid.Column="1">
                                 <StackPanel Margin="0">
-                                    <TextBlock >名称</TextBlock>
+                                    <TextBlock >Name</TextBlock>
                                     <TextBlock >CGL Diamond Color measuring instrument</TextBlock>
                                 </StackPanel>
                                 <StackPanel Margin="0 10 0 0">
-                                    <TextBlock >システムバージョン</TextBlock>
+                                    <TextBlock >System version</TextBlock>
                                     <TextBlock x:Name="txtVersion1">2.0.0</TextBlock>
                                 </StackPanel>
                                 <StackPanel Margin="0 10 0 0">
-                                    <TextBlock >アプリケーションバージョン</TextBlock>
+                                    <TextBlock >Application version</TextBlock>
                                     <TextBlock x:Name="txtVersion2">2.0.0</TextBlock>
                                 </StackPanel>
                                 <!--<StackPanel Margin="0 10 0 0">
@@ -52,45 +52,45 @@
 
                 </StackPanel>
                 <StackPanel Margin="0 30 0 0">
-                    <TextBlock Style="{StaticResource Header24}">スタートアップ動作</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">Startup behavor</TextBlock>
                     <Separator/>
-                    <TextBlock FontSize="14">スタートアップ時の動作の確認をします。</TextBlock>
+                    <TextBlock FontSize="14">Check the operation at startup.</TextBlock>
                     <Grid Margin="0 25 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="8*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="0">キャリブレーションと警告</TextBlock>
+                        <TextBlock Grid.Column="0" Margin="0">Calibration and warnings</TextBlock>
                         <StackPanel Grid.Column="1">
                             <StackPanel Margin="0">
-                                <TextBlock>起動時に自動で白色点のキャリブレーションをします</TextBlock>
+                                <TextBlock>Automatically calibrates the white point at startup.</TextBlock>
                             </StackPanel>
                             <StackPanel Margin="10">
-                                <TextBlock>暖機時間</TextBlock>
-                                <TextBlock>15分</TextBlock>
+                                <TextBlock>Warm-up time</TextBlock>
+                                <TextBlock>15 minutes</TextBlock>
                             </StackPanel>
                             <StackPanel Margin="10">
-                                <TextBlock>室温変化によるワーニング</TextBlock>
-                                <TextBlock>装置のキャリブレーション時の室温から±6℃</TextBlock>
+                                <TextBlock>Warning due to room temperature change</TextBlock>
+                                <TextBlock>+-6 celsius from room temperature during instrument calibration</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
                 
                 <StackPanel Margin="0 30 0 0">
-                    <TextBlock Style="{StaticResource Header24}">測定</TextBlock>
+                    <TextBlock Style="{StaticResource Header24}">Measuring</TextBlock>
                     <Separator/>
-                    <TextBlock FontSize="14">カラーグレーディングおよびカラー測定時の測定条件の確認をします。</TextBlock>
+                    <TextBlock FontSize="14">Check the measurement conditions for color grading and color measurement.</TextBlock>
 
                     <Grid Margin="0 35 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="8*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="0">白色基準</TextBlock>
+                        <TextBlock Grid.Column="0" Margin="0">white standard</TextBlock>
                         <StackPanel Grid.Column="1">
                             <StackPanel Margin="0">
-                                <TextBlock Margin="0,5,0,0">CIE XYZ三刺激値</TextBlock>
+                                <TextBlock Margin="0,5,0,0">CIE XYZtristimulus values</TextBlock>
                                 <TextBlock Margin="0,5,0,0" x:Name="txtWhitepoint" Text="450.00, 450.00 , 450.00"></TextBlock>
                             </StackPanel>
                         </StackPanel>
@@ -102,26 +102,26 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Margin="0">カラー測定</TextBlock>
+                            <TextBlock Grid.Column="0" Margin="0">Color measuring</TextBlock>
                             <StackPanel Grid.Column="1">
                                 <StackPanel Margin="0">
-                                    <TextBlock Margin="0 0 0 10">カラー測定時の測定条件を確認します</TextBlock>
+                                    <TextBlock Margin="0 0 0 10">Check the measurement conditions for color measurement.</TextBlock>
                                     <StackPanel Width="500" HorizontalAlignment="Left" Margin="0">
-                                        <TextBlock Margin="0">測定点数</TextBlock>
+                                        <TextBlock Margin="0">Number of measurement points</TextBlock>
                                         <TextBlock TextAlignment="Right">8</TextBlock>
                                     </StackPanel>
                                     <StackPanel Width="500" HorizontalAlignment="Left">
-                                        <TextBlock  Margin="0,5,0,0">白色照明の光量</TextBlock>
+                                        <TextBlock  Margin="0,5,0,0">Light intensity of white lighting</TextBlock>
                                         <StackPanel>
-                                            <TextBlock>白色強さ</TextBlock>
+                                            <TextBlock>White brightness</TextBlock>
                                             <TextBlock  x:Name="lValue1" Text="1023" TextAlignment="Right"/>
-                                            <TextBlock>UV強さ</TextBlock>
+                                            <TextBlock>UV brightness</TextBlock>
                                             <TextBlock x:Name="lValue2" Text="32" TextAlignment="Right"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Width="500" HorizontalAlignment="Left">
                                         <StackPanel Margin="0,15,0,0">
-                                            <TextBlock  Margin="0">露光時間</TextBlock>
+                                            <TextBlock  Margin="0">Exposuretime</TextBlock>
                                             <!--<ComboBox x:Name="measureColorExposure" SelectedValue="Tag">
                                                 <ComboBoxItem Tag="0">0.066 sec</ComboBoxItem>
                                                 <ComboBoxItem Tag="1">0.033 sec</ComboBoxItem>
@@ -131,7 +131,7 @@
                                             <TextBlock x:Name="txtmeasureColorExposureTime" Text="0.066 sec" TextAlignment="Right"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,15,0,0">
-                                            <TextBlock  Margin="0">積算回数<LineBreak /><TextBlock FontSize="12">多くするとS/Nがよくなります。</TextBlock></TextBlock>
+                                            <TextBlock  Margin="0">Integration time<LineBreak /><TextBlock FontSize="12">Increasing the number will improve the S/N.</TextBlock></TextBlock>
                                             <!--<ComboBox SelectedValue="Tag" Width="300" HorizontalAlignment="Left">
                                             <ComboBoxItem Tag="1">1</ComboBoxItem>
                                             <ComboBoxItem Tag="2">2</ComboBoxItem>
@@ -165,18 +165,18 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Margin="0">測定結果</TextBlock>
+                            <TextBlock Grid.Column="0" Margin="0">Measurement result</TextBlock>
                             <StackPanel Grid.Column="1">
                                 <StackPanel Margin="0">
                                     <StackPanel Margin="0">
-                                        <TextBlock Margin="0 0 0 10">測定時にダイヤモンドの三刺激値、CIE L*C*h*及び白色点の三刺激値を保存します</TextBlock>
+                                        <TextBlock Margin="0 0 0 10">Saves diamond tristimulus values, CIE L*C*h* and white point tristimulus values ​​during measurement.</TextBlock>
                                     </StackPanel>
                                     <StackPanel Margin="0,15,0,0">
-                                        <TextBlock>測定データのファイル名</TextBlock>
-                                        <TextBlock Text="ソーティング番号.cmi"></TextBlock>
+                                        <TextBlock>Measurement file name</TextBlock>
+                                        <TextBlock Text="sortingnumber.cmi"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Margin="0,15,0,0">
-                                        <TextBlock>測定データの保存先</TextBlock>
+                                        <TextBlock>Where to save measured values</TextBlock>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBox x:Name="txtMesLogPath" Text="" Width="480"></TextBox>
                                             <!--<Button x:Name="btnOpenDirectoryDialog">...</Button>-->
@@ -190,10 +190,10 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="8*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Margin="0">補正</TextBlock>
+                            <TextBlock Grid.Column="0" Margin="0">Correction</TextBlock>
                             <StackPanel Grid.Column="1">
-                                <TextBlock Margin="0 0 0 10">測定時に温度変化による照明の変動を補正します</TextBlock>
-                                <TextBlock Margin="0 0 0 10">カメラの感度むらを補正します</TextBlock>
+                                <TextBlock Margin="0 0 0 10">Compensates for illumination fluctuations due to temperature changes during measurement.</TextBlock>
+                                <TextBlock Margin="0 0 0 10">Corrects uneven camera sensitivity.</TextBlock>
                             </StackPanel>
                         </Grid>
 
@@ -203,16 +203,16 @@
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="8*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="0">解析</TextBlock>
+                        <TextBlock Grid.Column="0" Margin="0">Analysis</TextBlock>
                         <StackPanel Grid.Column="1">
                             <StackPanel Margin="0">
-                                <TextBlock Margin="0">解析データの範囲</TextBlock>
-                                <TextBlock Margin="0,5,0,0">以下の三刺激値データの範囲内を有効データとして処理します</TextBlock>
+                                <TextBlock Margin="0">Analysis data range</TextBlock>
+                                <TextBlock Margin="0,5,0,0">Processes the following tristimulus value data as valid data.</TextBlock>
 
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="5 10 0 0" Text="下限"></TextBlock>
+                                    <TextBlock Margin="5 10 0 0" Text="lower limit"></TextBlock>
                                     <TextBox Margin="10 0" x:Name="DataRangeMin" Text="0"  TextAlignment="Right" Width="100" IsReadOnly="True"></TextBox>
-                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBlock Margin="10 10 0 0" Text="Upper limit"></TextBlock>
                                     <TextBox Margin="10 0" x:Name="DataRangeMax" Text="1023" TextAlignment="Right" Width="100" IsReadOnly="True"></TextBox>
                                 </StackPanel>
                             </StackPanel>
