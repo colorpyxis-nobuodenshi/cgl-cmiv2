@@ -55,18 +55,18 @@ namespace CGLCMIV2App
             {
                 btnGetWhitepoint.IsEnabled = false;
                 messageWindow = serviceProvider.GetService<IMessageWindow>();
-                messageWindow?.Show("白色点を取得しています。", ViewController.Instance.MainWindow);
+                messageWindow?.Show("Getting the white point.", ViewController.Instance.MainWindow);
                 await scanWhitepoint.ExecuteAsync(appStore.ColorimetryCondition);
                 messageWindow?.Close();
                 btnGetWhitepoint.IsEnabled = true;
             };
             btnMakeShadingCorrectPixels.Click += async delegate
             {
-                if(MessageBox.Show("感度むら補正データを作成しますか？", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if(MessageBox.Show("Do you want to create sensitivity unevenness correction data?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     btnMakeShadingCorrectPixels.IsEnabled = false;
                     messageWindow = serviceProvider.GetService<IMessageWindow>();
-                    messageWindow?.Show("感度むら補正データ作成中\r\nしばらくお待ちください", ViewController.Instance.MainWindow);
+                    messageWindow?.Show("Creating sensitivity unevenness correction data\r\nPlease wait for a while.", ViewController.Instance.MainWindow);
                     await makeShadingData.ExecuteAsync(appStore.ColorimetryCondition);
                     messageWindow?.Close();
                     btnMakeShadingCorrectPixels.IsEnabled = true;

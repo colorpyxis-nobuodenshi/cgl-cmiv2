@@ -134,7 +134,7 @@
                         <ListView x:Name="listView1" TextElement.FontSize="14" Height="300">
                             <ListView.View>
                                 <GridView x:Name="gridView1">
-                                    <GridViewColumn Header="s/n" DisplayMemberBinding="{Binding [0]}"  Width="130">
+                                    <GridViewColumn Header="serialnumber" DisplayMemberBinding="{Binding [0]}"  Width="150">
                                     </GridViewColumn>
                                     <GridViewColumn Header="L*C*h*" DisplayMemberBinding="{Binding [1]}"  Width="130">
 

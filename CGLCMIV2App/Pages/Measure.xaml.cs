@@ -105,7 +105,7 @@ namespace CGLCMIV2App
                 if (mode1.IsChecked == true)
                 {
                     btnMeasure.IsEnabled = false;
-                    message.Text = "測定中しばらくお待ちください";
+                    message.Text = "Please wait while measuring";
                     await autoMeasure.ExecuteAsync(serialNumber.Text.Trim(), condition, measureCancellationTokenSource);
                     btnMeasure.IsEnabled = true;
                     return;
@@ -322,7 +322,7 @@ namespace CGLCMIV2App
                                         barcode = barcode.Trim();
                                         if (barcode.Length != 8)
                                         {
-                                            MessageBox.Show("バーコードの読み取りに失敗しました.");
+                                            MessageBox.Show("Barcode reading failed.");
                                             serialNumber.Text = string.Empty;
                                         }
                                         else
