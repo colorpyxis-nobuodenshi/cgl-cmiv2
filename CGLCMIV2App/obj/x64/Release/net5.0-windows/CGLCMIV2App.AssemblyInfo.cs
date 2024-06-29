@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CGLCMIV2App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.5.0118")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.5+76355aa56c330deb4cd2b6b2ddb83deca0519111")]
 [assembly: System.Reflection.AssemblyProductAttribute("CGLCMIV2App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CGLCMIV2App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.0.5.0")]

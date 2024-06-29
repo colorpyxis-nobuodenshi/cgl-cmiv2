@@ -77,7 +77,7 @@ namespace CGLCMIV2App {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/CGLCMIV2App;component/pages/chartcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/CGLCMIV2App;V2.0.5.0;component/pages/chartcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Pages\ChartControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

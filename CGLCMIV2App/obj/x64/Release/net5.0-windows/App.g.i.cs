@@ -53,7 +53,7 @@ namespace CGLCMIV2App {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/CGLCMIV2App;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/CGLCMIV2App;V2.0.5.0;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
