@@ -60,10 +60,10 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStart" Height="70" Focusable="False">
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStart" Height="70" Focusable="False" FontSize="12">
                         <TextBlock TextAlignment="Center">Hardware<LineBreak/>Connect</TextBlock>
                     </Button>
-                    <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStop" Height="70" Focusable="False" Visibility="Hidden">
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStop" Height="70" Focusable="False" Visibility="Hidden"  FontSize="12">
                         <TextBlock TextAlignment="Center">Hardware<LineBreak/>Disconnect</TextBlock>
                     </Button>
                     <Button Grid.Column="1" Grid.Row="0" x:Name="btnStart"  Content="Run" Height="70"/>
