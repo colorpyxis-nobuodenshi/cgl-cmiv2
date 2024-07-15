@@ -38,9 +38,9 @@ namespace CGLCMIV2App
             {
                 var c = ColorimetryCondition;
                 ColorimetryCondition = ColorimetryCondition.Create(c.ExposureTime, c.Integration, c.ShadingCorrectPixels, c.MultiColorConversionMatrix, c.Whitepoint, c.WhitepointForCorrect, c.LEDValue, c.MeasurePoint, labm, a.Whitepoint, a.WhitepointCorner, c.WhitebalanceGain);
-                AppSettings.MeasureCondition.Whitepoint = a.Whitepoint.To1DArray();
-                AppSettings.MeasureCondition.WhitepointForCorrect = a.WhitepointCorner.To1DArray();
-                AppSettings.CalibrationLatestDate.Whitepoint = a.ProcessingDatetime;
+                AppSettings.MeasureCondition.WhitepointOnSpectralon = a.Whitepoint.To1DArray();
+                AppSettings.MeasureCondition.WhitepointForCorrectOnSpectralon = a.WhitepointCorner.To1DArray();
+                AppSettings.CalibrationLatestDate.WhitepointOnSpectralon = a.ProcessingDatetime;
             });
             EventBus.EventBus.Instance.Subscribe<MakeShadingCorrectDataCompletedEvent>(a =>
             {
