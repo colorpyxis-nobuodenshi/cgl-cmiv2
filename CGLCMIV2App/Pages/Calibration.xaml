@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CGLCMIV2App"
              mc:Ignorable="d" 
-             d:DesignHeight="1200" d:DesignWidth="1180">
+             d:DesignHeight="700" d:DesignWidth="1180">
     <Grid>
         
         <ScrollViewer>
@@ -57,12 +57,49 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1">
                             <Button  Width="120"  Height="50" Cursor="Hand" x:Name="btnGetWhitepoint">
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">White point<LineBreak/>acquisition</TextBlock>
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Execute</TextBlock>
                             </Button>
                         </StackPanel>
                     </Grid>
 
             </StackPanel>
+                
+                <StackPanel Margin="5,20,0,0">
+                    <TextBlock Style="{StaticResource Header24}">Spectralon</TextBlock>
+                    <Separator/>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock FontSize="16"  TextWrapping="Wrap">Measure the Spectralon. Measure for white reference. Based on this standard, we estimate when to replace the ptfe stage.</TextBlock>
+                            <StackPanel Margin="30 15">
+                                <TextBlock Margin="5" TextWrapping="Wrap">Last execution date and time : <TextBlock x:Name="CalibrateDateWhitepointOnSpectralon" Text="2018/2/10 10:00"></TextBlock></TextBlock>
+                                <TextBlock Margin="5" TextWrapping="Wrap">CIE XYZ： <TextBlock x:Name="CalibrateWhitepointOnSpectralon" Text="450 , 450 , 450          (450 , 450 , 450)"></TextBlock></TextBlock>
+                                <TextBlock Margin="5" TextWrapping="Wrap">CIE Yxy： <TextBlock x:Name="CalibrateWhitepointYxyOnSpectralon" Text="450 , 0.000 , 0.000          (450 , 0.000 , 0.000)"></TextBlock></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1">
+                            <Button  Width="120"  Height="50" Cursor="Hand" x:Name="btnGetSpectralon">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Execute</TextBlock>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0">
+                            <TextBlock FontSize="16"  TextWrapping="Wrap">Move a replacement position.</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Button  Width="120"  Height="50" Cursor="Hand" x:Name="btnAutoStageReplacementpoint2">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Execute</TextBlock>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
                 <StackPanel Margin="5,20,0,0">
                     <TextBlock Style="{StaticResource Header24}">Uneven sensitivity</TextBlock>
                     <Separator/>
@@ -99,9 +136,9 @@
                             </ScrollViewer>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="120"  Height="50" Content="Start" x:Name="btnCameraLiveStart"/>
-                            <Button Width="120"  Height="50" Content="Stop" x:Name="btnCameraLiveStop" IsEnabled="False"/>
-                            <Button Width="120"  Height="50" Content="Capture" x:Name="btnCameraSnap"/>
+                            <Button Width="120"  Height="50" Margin="1" Content="Start" x:Name="btnCameraLiveStart"/>
+                            <Button Width="120"  Height="50" Margin="1" Content="Stop" x:Name="btnCameraLiveStop" IsEnabled="False"/>
+                            <Button Width="120"  Height="50" Margin="1" Content="Capture" x:Name="btnCameraSnap"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -118,10 +155,10 @@
                             <TextBlock FontSize="16" TextWrapping="Wrap">Performs mechanical origin return and origin return of the positioning stage.</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageOrg">
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageOrg">
                                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Machine home return</TextBlock>
                             </Button>
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageHome">
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageHome">
                                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Return to origin</TextBlock>
                             </Button>
                         </StackPanel>
@@ -138,11 +175,17 @@
                             <TextBlock FontSize="16" TextWrapping="Wrap">Moves the positioning stage up and down</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageMeasurepoint">
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageMeasurepoint">
                                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Measurement position</TextBlock>
                             </Button>
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageWorksetpoint">
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageWorksetpoint">
                                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Work position</TextBlock>
+                            </Button>
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageReplacementpoint">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Replacement position</TextBlock>
+                            </Button>
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageMeasurepointBySpectralon" FontSize="11">
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Spectralon measurement position</TextBlock>
                             </Button>
                         </StackPanel>
                     </Grid>
@@ -155,9 +198,9 @@
                             <TextBlock FontSize="16" TextWrapping="Wrap">Check the rotation of the stage</TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="1" >
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateCW45">+45</Button>
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateCCW45">-45</Button>
-                            <Button Width="120"  Height="50" x:Name="btnAutoStageRotateHome" Cursor="Hand">Origin</Button>
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageRotateCW45">+45</Button>
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageRotateCCW45">-45</Button>
+                            <Button Width="120"  Height="50" Margin="1" x:Name="btnAutoStageRotateHome" Cursor="Hand">Origin</Button>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

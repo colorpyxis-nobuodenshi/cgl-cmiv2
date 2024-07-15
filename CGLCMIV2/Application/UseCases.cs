@@ -1,4 +1,5 @@
 ﻿using CGLCMIV2.Domain;
+using CGLCMIV2.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,15 +105,19 @@ namespace CGLCMIV2.Application
         ILEDLight _ledLight;
         IColorimetry _colorimetry;
         ILogger _logger;
+        IPixelsTiffFileStore _pixelsFileStore;
         double _opticalpowerFactor;
-        public Start(ICamera camera, IAutoStage autoStage, ILEDLight led, IColorimetry colorimetry, ILogger logger, AppSettings settings)
+        int _whiteStageReplacementThreshold;
+        public Start(ICamera camera, IAutoStage autoStage, ILEDLight led, IColorimetry colorimetry, ILogger logger, IPixelsTiffFileStore pixelsFileStore, AppSettings settings)
         {
             _camera = camera;
             _autoStage = autoStage;
             _ledLight = led;
             _colorimetry = colorimetry;
             _logger = logger;
+            _pixelsFileStore = pixelsFileStore;
             _opticalpowerFactor = settings.MeasureCondition.OpticalpowerFactor;
+            _whiteStageReplacementThreshold = settings.MeasureCondition.WhiteStageReplacementThreshold;
         }
         public void Execute(ColorimetryCondition condition)
         {
@@ -137,13 +142,17 @@ namespace CGLCMIV2.Application
                     _autoStage.MoveMeasurePoint();
 
                     var res = _colorimetry.ScanWhitepoint(condition);
+
+                    var replacementTiming = Colorimetry.WhitepointComparisonWithSpectralon(res.whitepoint, res.whitepointCorner, condition.WhitepointOnSpectralon, condition.WhitepointForCorrectionOnSpectralon, _whiteStageReplacementThreshold);
                     //_ledLight.ReadStatus();
                     var temperature = _ledLight.GetTemperature();
                     var opticalpower = _ledLight.GetOpticalPower() * _opticalpowerFactor;
 
                     _logger.Infomation($"scan white point:{res.whitepoint}.");
 
-                    EventBus.EventBus.Instance.Publish(new ScanWhitepointCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower));
+                    var name = $"WhiteStage\\whitepoint{DateTime.Now.ToString("yyyyMMdd")}.tiff";
+                    _pixelsFileStore.Execute(name, res.pixels);
+                    EventBus.EventBus.Instance.Publish(new ScanWhitepointCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower, replacementTiming.replacement, res.whitepointStdDev));
 
                     _autoStage.MoveWorkSetPoint();
                 }
@@ -594,6 +603,46 @@ namespace CGLCMIV2.Application
             });
         }
     }
+    public class AutoStageMoveMeasurePointOnSpectralon : IUsecase
+    {
+        IAutoStage _autoStage;
+        public AutoStageMoveMeasurePointOnSpectralon(IAutoStage stage)
+        {
+            _autoStage = stage;
+        }
+
+        public void Execute()
+        {
+            _autoStage.MoveMeasurePointOnSpectralon();
+        }
+        public async Task ExecuteAsync()
+        {
+            await Task.Run(() =>
+            {
+                Execute();
+            });
+        }
+    }
+    public class AutoStageMoveReplacementPoint : IUsecase
+    {
+        IAutoStage _autoStage;
+        public AutoStageMoveReplacementPoint(IAutoStage stage)
+        {
+            _autoStage = stage;
+        }
+
+        public void Execute()
+        {
+            _autoStage.MoveReplacementPoint();
+        }
+        public async Task ExecuteAsync()
+        {
+            await Task.Run(() =>
+            {
+                Execute();
+            });
+        }
+    }
     public class AutoStageRotateCW45 : IUsecase
     {
         IAutoStage _autoStage;
@@ -1034,10 +1083,11 @@ namespace CGLCMIV2.Application
         IAutoStage _autoStage;
         ILEDLight _ledLight;
         IColorimetry _colorimetry;
-        IPixelsFileStore<ushort> _pixelsFileStore;
+        IPixelsTiffFileStore _pixelsFileStore;
         ILogger _logger;
         double _opticalpowerFactor;
-        public ScanWhitepoint(ICamera camera, IColorimetry colorimetry, IAutoStage autoStage, ILEDLight led, IPixelsFileStore<ushort> pixelsFileStore, ILogger logger, AppSettings settings)
+        int _whiteStageReplacementThreshold;
+        public ScanWhitepoint(ICamera camera, IColorimetry colorimetry, IAutoStage autoStage, ILEDLight led, IPixelsTiffFileStore pixelsFileStore, ILogger logger, AppSettings settings)
         {
             _camera = camera;
             _colorimetry = colorimetry;
@@ -1046,6 +1096,7 @@ namespace CGLCMIV2.Application
             _pixelsFileStore = pixelsFileStore;
             _logger = logger;
             _opticalpowerFactor = settings.MeasureCondition.OpticalpowerFactor;
+            _whiteStageReplacementThreshold = settings.MeasureCondition.WhiteStageReplacementThreshold;
         }
 
         public void Execute(ColorimetryCondition condition)
@@ -1054,15 +1105,17 @@ namespace CGLCMIV2.Application
             {
                 _autoStage.MoveMeasurePoint();
                 var res = _colorimetry.ScanWhitepoint(condition);
+                var replacementTiming = Colorimetry.WhitepointComparisonWithSpectralon(res.whitepoint, res.whitepointCorner, condition.WhitepointOnSpectralon, condition.WhitepointForCorrectionOnSpectralon, _whiteStageReplacementThreshold);
                 //_ledLight.ReadStatus();
                 var temperature = _ledLight.GetTemperature();
                 var opticalpower = _ledLight.GetOpticalPower() * _opticalpowerFactor;
 
                 _autoStage.MoveWorkSetPoint();
 
-                //_pixelsFileStore.Execute("whitepoint.raw", res.pixels);
+                var name = $"WhiteStage\\whitepoint{DateTime.Now.ToString("yyyyMMdd")}.tiff";
+                _pixelsFileStore.Execute(name, res.pixels);
 
-                EventBus.EventBus.Instance.Publish(new ScanWhitepointCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower));
+                EventBus.EventBus.Instance.Publish(new ScanWhitepointCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower, replacementTiming.replacement, res.whitepointStdDev));
             }
             catch(Exception ex)
             {
@@ -1080,6 +1133,59 @@ namespace CGLCMIV2.Application
         }
     }
 
+
+    public class ScanWhitepointOnSpectralon : IUsecase
+    {
+        ICamera _camera;
+        IAutoStage _autoStage;
+        ILEDLight _ledLight;
+        IColorimetry _colorimetry;
+        IPixelsTiffFileStore _pixelsFileStore;
+        ILogger _logger;
+        double _opticalpowerFactor;
+        public ScanWhitepointOnSpectralon(ICamera camera, IColorimetry colorimetry, IAutoStage autoStage, ILEDLight led, IPixelsTiffFileStore pixelsFileStore, ILogger logger, AppSettings settings)
+        {
+            _camera = camera;
+            _colorimetry = colorimetry;
+            _autoStage = autoStage;
+            _ledLight = led;
+            _pixelsFileStore = pixelsFileStore;
+            _logger = logger;
+            _opticalpowerFactor = settings.MeasureCondition.OpticalpowerFactor;
+        }
+
+        public void Execute(ColorimetryCondition condition)
+        {
+            try
+            {
+                _autoStage.MoveMeasurePointOnSpectralon();
+                var res = _colorimetry.ScanWhitepoint(condition);
+                //_ledLight.ReadStatus();
+                var temperature = _ledLight.GetTemperature();
+                var opticalpower = _ledLight.GetOpticalPower() * _opticalpowerFactor;
+
+                _autoStage.MoveReplacementPoint();
+
+                var name = $"WhiteStage\\spectralon{DateTime.Now.ToString("yyyyMMdd")}.tiff";
+                _pixelsFileStore.Execute(name, res.pixels);
+
+                EventBus.EventBus.Instance.Publish(new ScanWhitepointOnSpectralonCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower, res.whitepointStdDev));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "scan whitepoint on spectralon.");
+                throw;
+            }
+        }
+
+        public async Task ExecuteAsync(ColorimetryCondition condition)
+        {
+            await Task.Run(() =>
+            {
+                Execute(condition);
+            });
+        }
+    }
     //public class ScanLED : IUsecase
     //{
     //    ILEDLight _ledLight;
@@ -1117,9 +1223,9 @@ namespace CGLCMIV2.Application
         IAutoStage _autoStage;
         ILEDLight _ledLight;
         IColorimetry _colorimetry;
-        IShadingPixelsFileStore _store;
+        IPixelsTiffFileStore _store;
         ILogger _logger;
-        public MakeShadingData(ICamera camera, IAutoStage autoStage, ILEDLight led, IColorimetry colorimetry, IShadingPixelsFileStore store, ILogger logger)
+        public MakeShadingData(ICamera camera, IAutoStage autoStage, ILEDLight led, IColorimetry colorimetry, IPixelsTiffFileStore store, ILogger logger)
         {
             _camera = camera;
             _colorimetry = colorimetry;
@@ -1141,7 +1247,7 @@ namespace CGLCMIV2.Application
 
                 _autoStage.MoveWorkSetPoint();
 
-                _store.Execte("shd.raw", shd);
+                _store.Execute("shd.tiff", shd);
 
                 EventBus.EventBus.Instance.Publish(new MakeShadingCorrectDataCompletedEvent(shd, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
             }

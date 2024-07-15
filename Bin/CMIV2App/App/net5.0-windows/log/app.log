@@ -1,7 +1,0 @@
-2023-08-02 19:58:49.980 +09:00 [INF] application start.
-2023-08-02 19:58:53.410 +09:00 [ERR] connect hardware.
-System.ApplicationException: camera inilialization error. device not found.
-   at CGLCMIV2.Device.Camera.Start() in D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2\Device\RTC21.cs:line 25
-   at CGLCMIV2.Application.ConnectHardware.Execute() in D:\projects\CGL\CMIV2\CGLCMIV2\CGLCMIV2\CGLCMIV2\Application\UseCases.cs:line 32
-2023-08-02 19:58:59.938 +09:00 [INF] reseted.
-2023-08-02 19:59:03.864 +09:00 [INF] application end.

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace CGLCMIV2.Device
 {
-    public class Camera : ICamera
+    public class RTC21 : ICamera
     {
-        RTC21 _rtc21 = new RTC21();
+        RTC21_ _rtc21 = new RTC21_();
         
-        public Camera()
+        public RTC21()
         {
 
         }
@@ -156,7 +156,7 @@ namespace CGLCMIV2.Device
             }
         }
     }
-    internal class RTC21
+    internal class RTC21_
     {
         [Flags]
         enum RTCError
@@ -218,7 +218,7 @@ namespace CGLCMIV2.Device
         IntPtr _ser = IntPtr.Zero;
         string _serError = string.Empty;
         IntPtr _frameBuffer = IntPtr.Zero;
-        public RTC21()
+        public RTC21_()
         {
 
         }

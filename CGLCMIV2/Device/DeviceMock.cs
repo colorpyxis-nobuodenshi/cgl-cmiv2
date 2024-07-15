@@ -93,6 +93,16 @@ namespace CGLCMIV2.Device
         {
             throw new NotImplementedException();
         }
+
+        public void MoveReplacementPoint()
+        {
+            Console.WriteLine("autostage move replacement point.");
+        }
+
+        public void MoveMeasurePointOnSpectralon()
+        {
+            Console.WriteLine("autostage move measure point on spectralon.");
+        }
     }
 
     public class LEDControllerMock : ILEDLight
@@ -119,7 +129,7 @@ namespace CGLCMIV2.Device
         {
             Console.WriteLine($"ledlight get temperature.");
             var r = new Random();
-            return r.Next(20,30);
+            return r.Next(20, 30);
         }
         public void ReadStatus()
         {

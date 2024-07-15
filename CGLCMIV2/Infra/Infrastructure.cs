@@ -1,5 +1,6 @@
 ﻿using CGLCMIV2.Application;
 using CGLCMIV2.Domain;
+using OpenCvSharp;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiff;
 
 namespace CGLCMIV2.Infrastructure
 {
@@ -154,10 +156,18 @@ namespace CGLCMIV2.Infrastructure
     }
     public class WhitepointWriter : IWhitepointWriter
     {
-        public void Write(CIEXYZ whitepoint, double temperature, double opticalpower, string processingDatetime, string systemSerialNumber)
+        //public void Write(CIEXYZ whitepoint, double temperature, double opticalpower, string processingDatetime, string systemSerialNumber)
+        //{
+        //    var message = $"whitepoint={whitepoint},temperature1={temperature:F2},temperature2={opticalpower:F2},date={processingDatetime},systemserialnumber={systemSerialNumber}";
+        //    var filename = @"log\WHITEPOINT.log";
+        //    using (var sw = new StreamWriter(filename, true))
+        //    {
+        //        sw.WriteLine(message);
+        //    }
+        //}
+        public void Write(string message)
         {
-            var message = $"whitepoint={whitepoint},temperature={temperature:F2},opticalpower={opticalpower:F2},date={processingDatetime},systemserialnumber={systemSerialNumber}";
-            var filename = @"log\WHITEPOINT.log";
+            var filename = @"log\ptfelog.log";
             using (var sw = new StreamWriter(filename, true))
             {
                 sw.WriteLine(message);
@@ -204,7 +214,46 @@ namespace CGLCMIV2.Infrastructure
             }
 
             var tiff = new Tiff.TiffEncoder(path);
-            var info = new Tiff.ImageInfomation() { Width = w, Height = h, Channel = 3, Depth = 16 };
+            var info = new Tiff.TiffInfomation() { Width = w, Height = h, Channel = 3, Depth = 16, PlanarConfig = 1 };
+
+            tiff.Encode(info, pixels2);
+        }
+
+        public void Execute(string path, ShadingCorrectPixels obj)
+        {
+            var w = obj.Width;
+            var h = obj.Height;
+            var pixels = obj.Pix;
+            var pixels2 = new byte[w * h * 3 * 4];
+            var size = w * h;
+            var stride = w * 3;
+
+            unsafe
+            {
+                fixed (float* src = pixels)
+                fixed (byte* dst = pixels2)
+                {
+                    var srcPtr = src;
+                    var dstPtr = (float*)dst;
+                    var srcPtr1 = srcPtr;
+                    var srcPtr2 = srcPtr + size;
+                    var srcPtr3 = srcPtr + size * 2;
+
+                    for (var i = 0; i < size; i++)
+                    {
+                        *(dstPtr + 0) = *(srcPtr1);
+                        *(dstPtr + 1) = *(srcPtr2);
+                        *(dstPtr + 2) = *(srcPtr3);
+                        srcPtr1++;
+                        srcPtr2++;
+                        srcPtr3++;
+                        dstPtr += 3;
+                    }
+                }
+            }
+
+            var tiff = new Tiff.TiffEncoder(path);
+            var info = new Tiff.TiffInfomation() { Width = w, Height = h, Channel = 3, Depth = 32, PlanarConfig = 1, SampleFormat = 3 };
 
             tiff.Encode(info, pixels2);
         }
@@ -216,85 +265,148 @@ namespace CGLCMIV2.Infrastructure
                 Execute(path, obj);
             });
         }
-    }
-    public class ShadingPixelsFileStore : IShadingPixelsFileStore
-    {
-        public void Execte(string path, ShadingCorrectPixels obj)
+
+        public async Task ExecuteAsync(string path, ShadingCorrectPixels obj)
         {
-            if(File.Exists("shd.raw"))
+            await Task.Run(() =>
             {
-                File.Copy("shd.raw", "shd.1.raw", true);
-            }
-            using (var sw = new System.IO.BinaryWriter(System.IO.File.Open(path, System.IO.FileMode.Create)))
-            {
-                foreach (var v in obj.Pix)
-                {
-                    sw.Write(v);
-                }
-            }
+                Execute(path, obj);
+            });
         }
     }
-
-    public class ShadingPixelsFileLader : IShadingPixelsFileLoader
+    public class PixelsTiffFileLoader : IPixelsTiffFileLoader
     {
-        public ShadingPixelsFileLader()
-        {
-
-        }
-
         public ShadingCorrectPixels Execte(string path)
         {
-            var w = 1024;
-            var h = 768;
-            var len = w * h * 3;
-            var byteSize = len * 4;
-            var pixels = new byte[byteSize];
-            var pixels2 = new float[len];
+            var tiff = new TiffDecoder(path);
+            var res = tiff.Decode();
 
-
-            using (var sr = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open)))
+            var pix = new float[res.info.Width * res.info.Height * 3];
+            var pix2 = new float[res.info.Width * res.info.Height * 3];
+            for (var i = 0; i < pix.Length; i++)
             {
-                sr.Read(pixels, 0, byteSize);
+                pix[i] = BitConverter.ToSingle(res.pixels, i * 4);
             }
+            var size = res.info.Width * res.info.Height;
 
             unsafe
             {
-                fixed (byte* src = pixels)
-                fixed (float* dst = pixels2)
+                fixed (float* src = pix)
+                fixed (float* dst = pix2)
                 {
                     var srcPtr = src;
                     var dstPtr = dst;
-                    for (var i = 0; i < len; i++)
+                    var dstPtr1 = dstPtr;
+                    var dstPtr2 = dstPtr + size;
+                    var dstPtr3 = dstPtr + size * 2;
+
+                    for (var i = 0; i < size; i++)
                     {
-                        //var v1 = (byte)(*srcPtr >> 8);
-                        //var v2 = (byte)(*srcPtr & 0xFF);
-
-                        var b = new byte[] { *srcPtr, *(srcPtr + 1), *(srcPtr + 2), *(srcPtr + 3) };
-                        var val = BitConverter.ToSingle(b, 0);
-                        *dstPtr = val;
-
-                        srcPtr += 4;
-                        dstPtr++;
+                        *dstPtr1 = *(srcPtr + 0);
+                        *dstPtr2 = *(srcPtr + 1);
+                        *dstPtr3 = *(srcPtr + 2);
+                        dstPtr1++;
+                        dstPtr2++;
+                        dstPtr3++;
+                        srcPtr += 3;
                     }
                 }
             }
 
-            return new ShadingCorrectPixels(pixels2, w, h);
+            return new ShadingCorrectPixels(pix, res.info.Width, res.info.Height);
         }
-    }
-    public class PixelsFileStore : IPixelsFileStore<ushort>
-    {
-        public void Execute(string path, Pixels<ushort> obj)
+
+        public async Task<ShadingCorrectPixels> ExecuteAsync(string path)
         {
-            using (var sw = new System.IO.BinaryWriter(System.IO.File.Open(path, System.IO.FileMode.Create)))
+            return await Task.Run(() =>
             {
-                foreach (var v in obj.Pix)
-                {
-                    sw.Write(v);
-                }
-            }
+                return Execte(path);
+            });
         }
     }
+    //public class ShadingPixelsFileStore : IShadingPixelsFileStore
+    //{
+    //    public void Execte(string path, ShadingCorrectPixels obj)
+    //    {
+    //        if(File.Exists("shd.raw"))
+    //        {
+    //            File.Copy("shd.raw", "shd.1.raw", true);
+    //        }
+    //        using (var sw = new System.IO.BinaryWriter(System.IO.File.Open(path, System.IO.FileMode.Create)))
+    //        {
+    //            foreach (var v in obj.Pix)
+    //            {
+    //                sw.Write(v);
+    //            }
+    //        }
+    //    }
+    //}
+
+    //public class ShadingPixelsFileLader : IShadingPixelsFileLoader
+    //{
+    //    public ShadingPixelsFileLader()
+    //    {
+
+    //    }
+
+    //    public ShadingCorrectPixels Execte(string path)
+    //    {
+    //        var w = 1024;
+    //        var h = 768;
+    //        var len = w * h * 3;
+    //        var byteSize = len * 4;
+    //        var pixels = new byte[byteSize];
+    //        var pixels2 = new float[len];
+
+
+    //        using (var sr = new System.IO.BinaryReader(System.IO.File.Open(path, System.IO.FileMode.Open)))
+    //        {
+    //            sr.Read(pixels, 0, byteSize);
+    //        }
+
+    //        unsafe
+    //        {
+    //            fixed (byte* src = pixels)
+    //            fixed (float* dst = pixels2)
+    //            {
+    //                var srcPtr = src;
+    //                var dstPtr = dst;
+    //                for (var i = 0; i < len; i++)
+    //                {
+    //                    //var v1 = (byte)(*srcPtr >> 8);
+    //                    //var v2 = (byte)(*srcPtr & 0xFF);
+
+    //                    var b = new byte[] { *srcPtr, *(srcPtr + 1), *(srcPtr + 2), *(srcPtr + 3) };
+    //                    var val = BitConverter.ToSingle(b, 0);
+    //                    *dstPtr = val;
+
+    //                    srcPtr += 4;
+    //                    dstPtr++;
+    //                }
+    //            }
+    //        }
+
+    //        return new ShadingCorrectPixels(pixels2, w, h);
+    //    }
+    //}
+    //public class PixelsFileStore : IPixelsFileStore<ushort>
+    //{
+    //    public void Execute(string path, Pixels<ushort> obj)
+    //    {
+    //        var dirname = Path.GetDirectoryName(path);
+    //        if (!Directory.Exists(dirname))
+    //        {
+    //            Directory.CreateDirectory(dirname);
+    //        }
+    //        using (var sw = new System.IO.BinaryWriter(System.IO.File.Open(path, System.IO.FileMode.Create)))
+    //        {
+    //            foreach (var v in obj.Pix)
+    //            {
+    //                sw.Write(v);
+    //            }
+    //        }
+    //    }
+    //}
 
     public class ColorGradingConditonFileLoader : IColorGradingConditonFileLoader
     {

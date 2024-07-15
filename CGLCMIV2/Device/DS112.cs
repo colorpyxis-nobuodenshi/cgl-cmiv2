@@ -77,7 +77,7 @@ namespace CGLCMIV2.Device
                 var res = _ser.ReadLine();
                 if (res == "1")
                     break;
-                Task.Delay(500);
+                Task.Delay(100);
             }
             while (true)
             {
@@ -88,7 +88,7 @@ namespace CGLCMIV2.Device
                 var res = _ser.ReadLine();
                 if (res == "1")
                     break;
-                Task.Delay(500);
+                Task.Delay(100);
             }
 
         }
@@ -122,6 +122,40 @@ namespace CGLCMIV2.Device
                 while (_ser.BytesToRead < 1) ;
                 var res = _ser.ReadLine();
                 if (res == "10000")
+                    break;
+                Task.Delay(100);
+            }
+        }
+
+        public void MoveReplacementPoint()
+        {
+            _ser.WriteLine("AXI1:SELSP 0:GOABS 9000");
+            while (_ser.BytesToWrite > 0) ;
+            while (true)
+            {
+                _ser.DiscardInBuffer();
+                _ser.WriteLine("AXI1:POS?");
+                while (_ser.BytesToWrite > 0) ;
+                while (_ser.BytesToRead < 1) ;
+                var res = _ser.ReadLine();
+                if (res == "9000")
+                    break;
+                Task.Delay(100);
+            }
+        }
+
+        public void MoveMeasurePointOnSpectralon()
+        {
+            _ser.WriteLine("AXI1:SELSP 0:GOABS 1500");
+            while (_ser.BytesToWrite > 0) ;
+            while (true)
+            {
+                _ser.DiscardInBuffer();
+                _ser.WriteLine("AXI1:POS?");
+                while (_ser.BytesToWrite > 0) ;
+                while (_ser.BytesToRead < 1) ;
+                var res = _ser.ReadLine();
+                if (res == "1500")
                     break;
                 Task.Delay(100);
             }

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="DiamondContour">
       <HintPath>Library\DiamondContour.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
 

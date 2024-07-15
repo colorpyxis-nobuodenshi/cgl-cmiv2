@@ -135,10 +135,10 @@ namespace CGLCMIV2App
             {
                 txtRoomTemperature.Text = a.Temperature.ToString("F2");
             });
-            appStore.Subscribe<OpticalpowerChangedEvent>(a =>
-            {
-                txtOpticalpower.Text = a.Opticalpower.ToString("F2");
-            });
+            //appStore.Subscribe<OpticalpowerChangedEvent>(a =>
+            //{
+            //    txtOpticalpower.Text = a.Opticalpower.ToString("F2");
+            //});
             appStore.Subscribe<AppHardwareConnectedEvent>(_ =>
             {
                 Status.Background = Brushes.DarkGreen;
@@ -277,6 +277,14 @@ namespace CGLCMIV2App
                 }
             });
 
+            appStore.Subscribe<ScanWhitepointCompletedEvent>(async (a) =>
+            {
+                if (a.ReplacementTiming)
+                {
+                    MessageBox.Show(this, $"Please replace the white stage.", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            });
             ViewController.Instance.Add(ViewController.CONTENT_COLORGRADING, measureAutoPage);
             ViewController.Instance.Add(ViewController.CONTENT_COLORMEASURING, measurePage);
             ViewController.Instance.Add(ViewController.CONTENT_CALIBRATION, calibratoinPage);

@@ -60,22 +60,20 @@ namespace CGLCMIV2App
             services.AddSingleton(settings.MeasureResultOutputOption);
 
             services.AddSingleton<ILogger, Logger>();
-            //services.AddSingleton<ICamera, Camera>();
-            //services.AddSingleton<IAutoStage, DS112>();
-            //services.AddSingleton<ILEDLight, LEDLight>();
-            services.AddSingleton<ICamera, CameraMock>();
-            services.AddSingleton<IAutoStage, AutoStageMock>();
-            services.AddSingleton<ILEDLight, LEDControllerMock>();
+            services.AddSingleton<ICamera, DFK33UX264>();
+            services.AddSingleton<IAutoStage, DS112>();
+            services.AddSingleton<ILEDLight, LEDLight>();
+            //services.AddSingleton<ICamera, CameraMock>();
+            //services.AddSingleton<IAutoStage, AutoStageMock>();
+            //services.AddSingleton<ILEDLight, LEDControllerMock>();
             services.AddSingleton<IColorGradingConditonFileLoader, ColorGradingConditonFileLoader>();
-            services.AddSingleton<IShadingPixelsFileLoader, ShadingPixelsFileLader>();
-            services.AddSingleton<IShadingPixelsFileStore, ShadingPixelsFileStore>();
             services.AddSingleton<AppLifeCycle>();
             services.AddSingleton<IColorimetry, Colorimetry>();
             services.AddSingleton<IColorGradeJudgement, ColorGradeJudgement>();
             services.AddSingleton<IMeasureResultWriter, MeasureResultWriter>();
             services.AddSingleton<IWhitepointWriter, WhitepointWriter>();
             services.AddSingleton<IPixelsTiffFileStore, PixelsTiffFileStore>();
-            services.AddSingleton<IPixelsFileStore<ushort>, PixelsFileStore>();
+            services.AddSingleton<IPixelsTiffFileLoader, PixelsTiffFileLoader>();
             services.AddSingleton<IInstrumentalErrorCorrectionMatrixFileLoader, InstrumentalErrorCorrectionMatrixFileLoader>();
             services.AddSingleton<AppStore>();
 
@@ -100,10 +98,13 @@ namespace CGLCMIV2App
             services.AddTransient<AutoStageRotateHome>();
             services.AddTransient<AutoStageMoveMeasurePoint>();
             services.AddTransient<AutoStageMoveWorkSetPoint>();
+            services.AddTransient<AutoStageMoveReplacementPoint>();
+            services.AddTransient<AutoStageMoveMeasurePointOnSpectralon>();
             services.AddTransient<AutoStageRotateCWJ>();
             services.AddTransient<AutoStageRotateCCWJ>();
             services.AddTransient<MakeShadingData>();
             services.AddTransient<ScanWhitepoint>();
+            services.AddTransient<ScanWhitepointOnSpectralon>();
             services.AddTransient<LEDPowerChange>();
             services.AddTransient<BarcodeRead>();
 

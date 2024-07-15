@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CGLCMIV2.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,12 +32,28 @@ namespace CGLCMIV2.Application
         public string Whitepoint { get; set; }
         public string Opticalpower { get; set; }
         public string CameraShading { get; set; }
+        public string WhitepointOnSpectralon { get; set; }
     }
+    //public class CalibrationResult
+    //{
+    //    public CIEXYZ WhitepointOnReplacementWhiteStage { get; set; }
+    //    public CIEXYZ WhitepointForCorrectOnReplacementWhiteStage { get; set; }
+
+    //    public static CalibrationResult Create(CIEXYZ whitePoint, CIEXYZ whitepointForCorrect)
+    //    {
+    //        return new CalibrationResult()
+    //        {
+    //            WhitepointOnReplacementWhiteStage = whitePoint,
+    //            WhitepointForCorrectOnReplacementWhiteStage = whitepointForCorrect
+    //        };
+    //    }
+
+    //}
     public class MeasureCondition
     {
         public bool AutoCalibrateStartup { get; set; }
         public bool AutoCalibrateWhitepoint { get; set; }
-        public double[][] Matrix { get; set; }
+        //public double[][] Matrix { get; set; }
         public int ExposureTime { get; set; }
         public int Integration { get; set; }
         public int MeasurePoint { get; set; }
@@ -43,12 +61,17 @@ namespace CGLCMIV2.Application
         public int[] LEDValues { get; set; }
         public double[] Whitepoint { get; set; }
         public double[] WhitepointForCorrect { get; set; }
+        public double[] WhitepointOnSpectralon { get; set; }
+        public double[] WhitepointForCorrectOnSpectralon { get; set; }
         public double Opticalpower { get; set; }
         public string Colorgrading { get; set; }
         public int[] DefaultLEDValues { get; set; }
         public double[] DefaultWhitepoint { get; set; }
         public double[] DefaultWhitepointForCorrect { get; set; }
         public double OpticalpowerFactor { get; set; }
+        public int WhiteStageReplacementThreshold { get; set; }
+        public double[] WhitebalanceGain { get; set; }
+        public ColorConversionMatrix[] MultiColorConversionMatrix { get; set; }
     }
 
     //public class Display
@@ -65,5 +88,13 @@ namespace CGLCMIV2.Application
         public bool ColorGradingPixelsOutput { get; set; }
         public bool ColorMeasuringResultOutput { get; set; }
         public bool ColorMeasuringPixelsOutput { get; set; }
+    }
+
+    public class ColorConversionMatrix
+    {
+        public double[] U { get; set; }
+        public double[] V { get; set; }
+        public double[][] Mat { get; set; }
+
     }
 }

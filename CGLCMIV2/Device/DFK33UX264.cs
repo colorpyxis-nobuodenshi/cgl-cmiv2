@@ -31,12 +31,16 @@ namespace CGLCMIV2.Device
 
         public bool IsConnected { get; private set; }
 
-        const int EFFECTIVE_IMAGE_WIDTH = 2448;
-        const int EFFECTIVE_IMAGE_HEIGHT = 2048;
+        const int EFFECTIVE_IMAGE_WIDTH = 1024;
+        const int EFFECTIVE_IMAGE_HEIGHT = 768;
         const int FRAME_SIZE = EFFECTIVE_IMAGE_WIDTH * EFFECTIVE_IMAGE_HEIGHT * 3;
 
         public void Start()
         {
+            if(IsConnected)
+            {
+                return;
+            }
             var firstDevInfo = ic4.DeviceEnum.Devices.First();
             _grabber?.DeviceOpen(firstDevInfo);
 
@@ -54,7 +58,7 @@ namespace CGLCMIV2.Device
             //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.BalanceWhiteAutoPreset, "BalanceWhiteAutoPreset_Any");
             //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.BalanceWhiteTemperaturePreset, "BalanceWhiteTemperaturePreset_Daylight");
             //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.AutoFunctionsROIEnable, false);
-            //_grabber?.DevicePropertyMap.Serialize("camera.config.json");
+            _grabber?.DevicePropertyMap.Serialize("camera.config.json");
             
             _grabber?.StreamSetup(_sink, ic4.StreamSetupOption.AcquisitionStart);
             IsConnected = true;
@@ -63,20 +67,23 @@ namespace CGLCMIV2.Device
         public void Stop()
         {
             _grabber?.StreamStop();
+            _grabber.DeviceClose();
             IsConnected = false;
         }
 
         public XYZPixels TakePicture(int exposureTime, int integration)
         {
             _grabber?.AcquisitionStop();
-            _grabber?.DevicePropertyMap.SetValue(ic4.PropId.ExposureTime, exposureTime);
+            //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.ExposureTime, exposureTime);
             _grabber?.AcquisitionStart();
 
             var image = _sink?.SnapSingle(TimeSpan.FromSeconds(1));
             //image.SaveAsTiff("temp.tiff");
             //image.SaveAsTiff("temp1.tiff", true);
             var mat = image.CreateOpenCvWrap();
-            //mat = mat * (4095.0 / 65535.0);
+            Cv2.Resize(mat, mat, new Size(EFFECTIVE_IMAGE_WIDTH, EFFECTIVE_IMAGE_HEIGHT), interpolation: InterpolationFlags.Linear);
+            mat = mat * (1023.0 / 65535.0);
+            mat = mat.Flip(FlipMode.XY);
             mat = mat.CvtColor(ColorConversionCodes.BayerRG2RGB, 3);
             var pix = new ushort[FRAME_SIZE];
             

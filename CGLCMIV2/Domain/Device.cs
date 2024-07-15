@@ -46,6 +46,8 @@ namespace CGLCMIV2.Domain
         void MoveMechanicalHome();
         void MoveMeasurePoint();
         void MoveWorkSetPoint();
+        void MoveReplacementPoint();
+        void MoveMeasurePointOnSpectralon();
         void Move(int step);
         void RotateCW45();
         void RotateCCW45();
