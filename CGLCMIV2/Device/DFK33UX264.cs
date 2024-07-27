@@ -73,20 +73,24 @@ namespace CGLCMIV2.Device
 
         public XYZPixels TakePicture(int exposureTime, int integration)
         {
-            _grabber?.AcquisitionStop();
+            //_grabber?.AcquisitionStop();
             //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.ExposureTime, exposureTime);
-            _grabber?.AcquisitionStart();
+            //_grabber?.AcquisitionStart();
 
             var image = _sink?.SnapSingle(TimeSpan.FromSeconds(1));
             //image.SaveAsTiff("temp.tiff");
             //image.SaveAsTiff("temp1.tiff", true);
-            var mat = image.CreateOpenCvWrap();
+            var mat = image.CreateOpenCvCopy();
             mat = mat.CvtColor(ColorConversionCodes.BayerRG2RGB, 3);
             mat = mat.Flip(FlipMode.XY);
             mat = mat * (1023.0 / 65535.0);
             Cv2.Resize(mat, mat, new Size(EFFECTIVE_IMAGE_WIDTH, EFFECTIVE_IMAGE_HEIGHT), interpolation: InterpolationFlags.Linear);
             var pix = new ushort[FRAME_SIZE];
-            
+            //var mat2 = mat.Split();
+            //mat2[0].GetArray(out ushort[] z);
+            //mat2[1].GetArray(out ushort[] y);
+            //mat2[2].GetArray(out ushort[] x);
+            //var pix = x.Concat(y).Concat(z);
             //mat.ImWrite("temp2.tiff");
             
             unsafe
