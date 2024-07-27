@@ -175,7 +175,7 @@ namespace CGLCMIV2App
                         //imgCameraPixels.Width = w;
                         //imgCameraPixels.Height = h;
                     });
-                }, cameraCaptureStopTokenSource, 1);
+                }, cameraCaptureStopTokenSource);
             };
             btnCameraLiveStop.Click += delegate
             {

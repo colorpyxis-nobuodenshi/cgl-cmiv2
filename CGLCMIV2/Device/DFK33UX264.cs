@@ -81,10 +81,10 @@ namespace CGLCMIV2.Device
             //image.SaveAsTiff("temp.tiff");
             //image.SaveAsTiff("temp1.tiff", true);
             var mat = image.CreateOpenCvWrap();
-            Cv2.Resize(mat, mat, new Size(EFFECTIVE_IMAGE_WIDTH, EFFECTIVE_IMAGE_HEIGHT), interpolation: InterpolationFlags.Linear);
-            mat = mat * (1023.0 / 65535.0);
-            mat = mat.Flip(FlipMode.XY);
             mat = mat.CvtColor(ColorConversionCodes.BayerRG2RGB, 3);
+            mat = mat.Flip(FlipMode.XY);
+            mat = mat * (1023.0 / 65535.0);
+            Cv2.Resize(mat, mat, new Size(EFFECTIVE_IMAGE_WIDTH, EFFECTIVE_IMAGE_HEIGHT), interpolation: InterpolationFlags.Linear);
             var pix = new ushort[FRAME_SIZE];
             
             //mat.ImWrite("temp2.tiff");

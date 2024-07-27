@@ -414,7 +414,7 @@ namespace CGLCMIV2.Application
             throw new NotImplementedException();
         }
 
-        public void Execute(Action<XYZPixels> callback, CancellationTokenSource stopToken, int exposureTime, int integration = 1, ShadingCorrectPixels shd = null)
+        public void Execute(Action<XYZPixels> callback, CancellationTokenSource stopToken, int exposureTime = 1, int integration = 1, ShadingCorrectPixels shd = null, MultiColorConversionMatrix ccm = null)
         {
 
             Task.Run(() =>
@@ -425,6 +425,10 @@ namespace CGLCMIV2.Application
                     if(shd is not null)
                     {
                         p = Colorimetry.CorrectShading(p, shd);
+                    }
+                    if(ccm is not null)
+                    {
+                        p = Colorimetry.ConvertRAW2XYZ(p, ccm);
                     }
                     callback(p);
                     Task.Delay(100);

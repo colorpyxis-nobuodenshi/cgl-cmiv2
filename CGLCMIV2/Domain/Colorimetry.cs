@@ -240,7 +240,7 @@ namespace CGLCMIV2.Domain
             var p = _camera.TakePicture(measureCondition.ExposureTime, measureCondition.Integration);
             var area = DetectContour(p);
             p = CorrectShading(p, measureCondition.ShadingCorrectPixels);
-            p = RAW2XYZ(p, measureCondition.MultiColorConversionMatrix);
+            p = ConvertRAW2XYZ(p, measureCondition.MultiColorConversionMatrix);
             var xyzw = WhiteReferenceStatistics(p).average;
             //var p2 = MaskDetectContour(p.Width, p.Height, p.Pix, area.Pixels);
             //var xyz = XYZ1D(p2);
@@ -264,7 +264,7 @@ namespace CGLCMIV2.Domain
         {
             var pixels = _camera.TakePicture(condition.ExposureTime, condition.Integration);
             pixels = CorrectShading(pixels, condition.ShadingCorrectPixels);
-            pixels = RAW2XYZ(pixels, condition.MultiColorConversionMatrix);
+            pixels = ConvertRAW2XYZ(pixels, condition.MultiColorConversionMatrix);
             var gain = condition.WhitebalanceGain;
             var pix = pixels.Pix;
             var len = pixels.Width * pixels.Height;
@@ -675,7 +675,7 @@ namespace CGLCMIV2.Domain
             return new MeasureArea(w, h, contour);
         }
 
-        XYZPixels RAW2XYZ(XYZPixels value, MultiColorConversionMatrix ccm)
+        public static XYZPixels ConvertRAW2XYZ(XYZPixels value, MultiColorConversionMatrix ccm)
         {
             var w = value.Width;
             var h = value.Height;
