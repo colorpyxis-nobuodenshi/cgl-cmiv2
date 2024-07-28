@@ -77,10 +77,10 @@ namespace CGLCMIV2.Device
             //_grabber?.DevicePropertyMap.SetValue(ic4.PropId.ExposureTime, exposureTime);
             //_grabber?.AcquisitionStart();
 
-            var image = _sink?.SnapSingle(TimeSpan.FromSeconds(1));
+            var image = _sink?.SnapSingle(TimeSpan.FromSeconds(5));
             //image.SaveAsTiff("temp.tiff");
             //image.SaveAsTiff("temp1.tiff", true);
-            var mat = image.CreateOpenCvCopy();
+            var mat = image.CreateOpenCvWrap();
             mat = mat.CvtColor(ColorConversionCodes.BayerRG2RGB, 3);
             mat = mat.Flip(FlipMode.XY);
             mat = mat * (1023.0 / 65535.0);

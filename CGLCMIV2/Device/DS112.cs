@@ -129,7 +129,7 @@ namespace CGLCMIV2.Device
 
         public void MoveReplacementPoint()
         {
-            _ser.WriteLine("AXI1:SELSP 0:GOABS 9000");
+            _ser.WriteLine("AXI1:SELSP 0:GOABS 6000");
             while (_ser.BytesToWrite > 0) ;
             while (true)
             {
@@ -138,7 +138,7 @@ namespace CGLCMIV2.Device
                 while (_ser.BytesToWrite > 0) ;
                 while (_ser.BytesToRead < 1) ;
                 var res = _ser.ReadLine();
-                if (res == "9000")
+                if (res == "6000")
                     break;
                 Task.Delay(100);
             }
