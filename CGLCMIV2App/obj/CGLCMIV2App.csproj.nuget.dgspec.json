@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2App\\CGLCMIV2App.csproj": {
-      "version": "2.0.5",
+      "version": "2.1.5",
       "restore": {
         "projectUniqueName": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2App\\CGLCMIV2App.csproj",
         "projectName": "CGLCMIV2App",
@@ -117,7 +117,7 @@
       }
     },
     "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2.csproj": {
-      "version": "1.0.0",
+      "version": "2.1.0",
       "restore": {
         "projectUniqueName": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2.csproj",
         "projectName": "CGLCMIV2",

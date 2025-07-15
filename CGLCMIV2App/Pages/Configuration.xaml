@@ -192,8 +192,8 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Margin="0">Correction</TextBlock>
                             <StackPanel Grid.Column="1">
-                                <TextBlock Margin="0 0 0 10">Compensates for illumination fluctuations due to temperature changes during measurement.</TextBlock>
-                                <TextBlock Margin="0 0 0 10">Corrects uneven camera sensitivity.</TextBlock>
+                                <TextBlock Margin="0 0 0 10">Compensates for illumination fluctuations changes during measurement.</TextBlock>
+                                <TextBlock Margin="0 0 0 10">Corrects Flat field non-uniformity of sensitivity.</TextBlock>
                             </StackPanel>
                         </Grid>
 

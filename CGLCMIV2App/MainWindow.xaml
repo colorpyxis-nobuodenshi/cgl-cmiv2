@@ -61,19 +61,19 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStart" Height="70" Focusable="False" FontSize="12">
-                        <TextBlock TextAlignment="Center">Hardware<LineBreak/>Connect</TextBlock>
+                        <TextBlock TextAlignment="Center" FontSize="10">Hardware<LineBreak/>Disconnection</TextBlock>
                     </Button>
                     <Button Grid.Column="0" Grid.Row="0" x:Name="btnPreStop" Height="70" Focusable="False" Visibility="Hidden"  FontSize="12">
-                        <TextBlock TextAlignment="Center">Hardware<LineBreak/>Disconnect</TextBlock>
+                        <TextBlock TextAlignment="Center" FontSize="10">Hardware<LineBreak/>Disconnection</TextBlock>
                     </Button>
-                    <Button Grid.Column="1" Grid.Row="0" x:Name="btnStart"  Content="Run" Height="70"/>
-                    <Button Grid.Column="1" Grid.Row="0" x:Name="btnStop"  Content="Stop" Height="70" Visibility="Hidden"/>
+                    <Button Grid.Column="1" Grid.Row="0" x:Name="btnStart"  Content="Run" Height="70" FontSize="10"/>
+                    <Button Grid.Column="1" Grid.Row="0" x:Name="btnStop"  Content="Stop" Height="70" Visibility="Hidden" FontSize="10"/>
                     <Button Grid.Column="1" Grid.Row="1" x:Name="btnAbort" Height="70">
                         <TextBlock TextAlignment="Center" FontSize="10">
                             Abort<LineBreak/>Take out diamond
                         </TextBlock>
                     </Button>
-                    <Button Grid.Column="0" Grid.Row="1" x:Name="btnReset" Content="Reset" Height="70"/>
+                    <Button Grid.Column="0" Grid.Row="1" x:Name="btnReset" Content="Reset" Height="70" FontSize="10"/>
                 </Grid>
 
                 <StackPanel Margin="5 10 0 0">

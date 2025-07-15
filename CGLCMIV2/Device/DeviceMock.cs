@@ -26,8 +26,6 @@ namespace CGLCMIV2.Device
         {
             Console.WriteLine("camera take picture.");
             return new XYZPixels(new ushort[1024 * 768 * 3], 1024, 768);
-            //var p = new ushort[2048 * 1536 * 3].Select(x => x = 450).ToArray();
-            //return new XYZPixels(p, 2048, 1536);
         }
     }
 

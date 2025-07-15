@@ -313,7 +313,7 @@ namespace CGLCMIV2.Infrastructure
                 }
             }
 
-            return new ShadingCorrectPixels(pix, res.info.Width, res.info.Height);
+            return new ShadingCorrectPixels(pix2, res.info.Width, res.info.Height);
         }
 
         public async Task<ShadingCorrectPixels> ExecuteAsync(string path)

@@ -38,7 +38,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.ColumnSpan="2">Color grading</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Perform color grading measurements</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0 30 0 0" FontSize="12" TextWrapping="Wrap">Perform color grading measurement</TextBlock>
                             <materialDesign:PackIcon HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Kind="Note" VerticalAlignment="Center" Width="120" Height="120"></materialDesign:PackIcon>
                         </Grid>
                         

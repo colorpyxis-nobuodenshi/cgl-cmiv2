@@ -1892,7 +1892,7 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
-      "CGLCMIV2/1.0.0": {
+      "CGLCMIV2/2.1.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -5971,7 +5971,7 @@
         "system.xml.xdocument.nuspec"
       ]
     },
-    "CGLCMIV2/1.0.0": {
+    "CGLCMIV2/2.1.0": {
       "type": "project",
       "path": "../CGLCMIV2/CGLCMIV2.csproj",
       "msbuildProject": "../CGLCMIV2/CGLCMIV2.csproj"
@@ -5979,7 +5979,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows10.0.22621": [
-      "CGLCMIV2 >= 1.0.0",
+      "CGLCMIV2 >= 2.1.0",
       "MaterialDesignThemes >= 3.2.0",
       "Microsoft.Extensions.Configuration >= 5.0.0",
       "Microsoft.Extensions.Configuration.Binder >= 5.0.0",
@@ -5995,7 +5995,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2.0.5",
+    "version": "2.1.5",
     "restore": {
       "projectUniqueName": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2App\\CGLCMIV2App.csproj",
       "projectName": "CGLCMIV2App",
