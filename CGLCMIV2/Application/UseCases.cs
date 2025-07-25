@@ -2,6 +2,7 @@
 using CGLCMIV2.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -149,7 +150,10 @@ namespace CGLCMIV2.Application
                     var opticalpower = _ledLight.GetOpticalPower() * _opticalpowerFactor;
 
                     _logger.Infomation($"scan white point:{res.whitepoint}.");
-
+                    if(!Directory.Exists("WhiteStage"))
+                    {
+                        Directory.CreateDirectory("WhiteStage");
+                    }
                     var name = $"WhiteStage\\whitepoint{DateTime.Now.ToString("yyyyMMdd")}.tiff";
                     _pixelsFileStore.Execute(name, res.pixels);
                     EventBus.EventBus.Instance.Publish(new ScanWhitepointCompletedEvent(res.whitepoint, res.whitepointCorner, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), temperature, opticalpower, replacementTiming.replacement, res.whitepointStdDev));
