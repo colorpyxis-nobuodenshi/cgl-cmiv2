@@ -2,6 +2,7 @@
 using EventBus;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -208,13 +209,17 @@ namespace CGLCMIV2.Application
                 var whitePoint = a.Report.ColorimetryReport.Whitepoint;
                 var now = a.Report.CreateDateTime;
                 var temp1 = a.Report.ColorimetryReport.MeasurementTemperature;
-                var message = $"{id},{grade.value},{grade.sufix1},{grade.sufix2},{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{temp1:F2},{systemSerialNumber},{now}";
+                var message = $"{id},{grade.value},{grade.sufix1},{grade.sufix2},D65,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},White,{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{systemSerialNumber},{now}";
                 _measureResultWriter.Write(message);
 
                 if (option.ColorGradingResultOutput)
                 {
                     try
                     {
+                        if(!Directory.Exists(outputPath))
+                        {
+                            Directory.CreateDirectory(outputPath);
+                        }
                         _measureResultWriter.Write(outputPath, $"{id}.cmi", message);
                     }
                     catch(Exception ex)
@@ -239,7 +244,7 @@ namespace CGLCMIV2.Application
                 var now = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                 var temp1 = a.Report.MeasurementTemperature;
 
-                var message = $"{id},-,-,-,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{temp1:F2},{systemSerialNumber},{now}";
+                var message = $"{id},-,-,-,D65,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},White,{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{systemSerialNumber},{now}";
                 _measureResultWriter.Write(message);
             });
 
