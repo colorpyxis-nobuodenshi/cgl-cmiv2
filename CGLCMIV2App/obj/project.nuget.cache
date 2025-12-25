@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "BuUiwbsIArw=",
+  "dgSpecHash": "GTHQ73XX+Rc=",
   "success": true,
   "projectFilePath": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2App\\CGLCMIV2App.csproj",
   "expectedPackageFiles": [
@@ -113,7 +113,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\mfujino\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.31\\microsoft.windows.sdk.net.ref.10.0.22621.31.nupkg.sha512"
+    "C:\\Users\\mfujino\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.57\\microsoft.windows.sdk.net.ref.10.0.22621.57.nupkg.sha512"
   ],
   "logs": []
 }
