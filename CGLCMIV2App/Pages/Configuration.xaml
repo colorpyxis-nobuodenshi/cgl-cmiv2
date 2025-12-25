@@ -1,0 +1,283 @@
+﻿<UserControl x:Class="CGLCMIV2App.Configuration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CGLCMIV2App"
+             mc:Ignorable="d" 
+             d:DesignHeight="1600" d:DesignWidth="1000">
+    <Grid>
+        <ScrollViewer Grid.Row="0" TextElement.FontSize="18">
+            <StackPanel>
+                <StackPanel Margin="5,20,0,0">
+                    <TextBlock Style="{StaticResource Header24}">システム</TextBlock>
+                    <Separator/>
+                    <TextBlock FontSize="14">システムの設定を確認します。</TextBlock>
+                    <StackPanel>
+                        <Grid Margin="0 25 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0">基本情報</TextBlock>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Margin="0">
+                                    <TextBlock >名称</TextBlock>
+                                    <TextBlock >CGL Diamond Color measuring instrument</TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="0 10 0 0">
+                                    <TextBlock >システムバージョン</TextBlock>
+                                    <TextBlock x:Name="txtVersion1">2.0.0</TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="0 10 0 0">
+                                    <TextBlock >アプリケーションバージョン</TextBlock>
+                                    <TextBlock x:Name="txtVersion2">2.0.0</TextBlock>
+                                </StackPanel>
+                                <!--<StackPanel Margin="0 10 0 0">
+                                    <TextBlock >累積稼働時間</TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="TotalOperationtime"></TextBlock>
+                                        <TextBlock Margin="10 0 0 0">時間</TextBlock>
+                                    </StackPanel>
+                                </StackPanel>-->
+                                <!--<StackPanel Margin="0 10 0 0">
+                                    <TextBlock >稼働時間</TextBlock>
+                                    <TextBlock x:Name="Operationtime">1.0.0</TextBlock>
+                                </StackPanel>-->
+                            </StackPanel>
+                        </Grid>
+
+
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Margin="0 30 0 0">
+                    <TextBlock Style="{StaticResource Header24}">スタートアップ動作</TextBlock>
+                    <Separator/>
+                    <TextBlock FontSize="14">スタートアップ時の動作の確認をします。</TextBlock>
+                    <Grid Margin="0 25 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0">キャリブレーションと警告</TextBlock>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Margin="0">
+                                <TextBlock>起動時に自動で白色点のキャリブレーションをします</TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="10">
+                                <TextBlock>暖機時間</TextBlock>
+                                <TextBlock>15分</TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="10">
+                                <TextBlock>室温変化によるワーニング</TextBlock>
+                                <TextBlock>装置のキャリブレーション時の室温から±6℃</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                
+                <StackPanel Margin="0 30 0 0">
+                    <TextBlock Style="{StaticResource Header24}">測定</TextBlock>
+                    <Separator/>
+                    <TextBlock FontSize="14">カラーグレーディングおよびカラー測定時の測定条件の確認をします。</TextBlock>
+
+                    <Grid Margin="0 35 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0">白色基準</TextBlock>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Margin="0">
+                                <TextBlock Margin="0,5,0,0">CIE XYZ三刺激値</TextBlock>
+                                <TextBlock Margin="0,5,0,0" x:Name="txtWhitepoint" Text="450.00, 450.00 , 450.00"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel>
+                        <Grid Margin="0 40 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0">カラー測定</TextBlock>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Margin="0">
+                                    <TextBlock Margin="0 0 0 10">カラー測定時の測定条件を確認します</TextBlock>
+                                    <StackPanel Width="500" HorizontalAlignment="Left" Margin="0">
+                                        <TextBlock Margin="0">測定点数</TextBlock>
+                                        <TextBlock TextAlignment="Right">8</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Width="500" HorizontalAlignment="Left">
+                                        <TextBlock  Margin="0,5,0,0">白色照明の光量</TextBlock>
+                                        <StackPanel>
+                                            <TextBlock>白色強さ</TextBlock>
+                                            <TextBlock  x:Name="lValue1" Text="1023" TextAlignment="Right"/>
+                                            <TextBlock>UV強さ</TextBlock>
+                                            <TextBlock x:Name="lValue2" Text="32" TextAlignment="Right"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Width="500" HorizontalAlignment="Left">
+                                        <StackPanel Margin="0,15,0,0">
+                                            <TextBlock  Margin="0">露光時間</TextBlock>
+                                            <!--<ComboBox x:Name="measureColorExposure" SelectedValue="Tag">
+                                                <ComboBoxItem Tag="0">0.066 sec</ComboBoxItem>
+                                                <ComboBoxItem Tag="1">0.033 sec</ComboBoxItem>
+                                                <ComboBoxItem Tag="2">0.016 sec</ComboBoxItem>
+                                                <ComboBoxItem Tag="3">0.01 sec</ComboBoxItem>
+                                            </ComboBox>-->
+                                            <TextBlock x:Name="txtmeasureColorExposureTime" Text="0.066 sec" TextAlignment="Right"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,15,0,0">
+                                            <TextBlock  Margin="0">積算回数<LineBreak /><TextBlock FontSize="12">多くするとS/Nがよくなります。</TextBlock></TextBlock>
+                                            <!--<ComboBox SelectedValue="Tag" Width="300" HorizontalAlignment="Left">
+                                            <ComboBoxItem Tag="1">1</ComboBoxItem>
+                                            <ComboBoxItem Tag="2">2</ComboBoxItem>
+                                            <ComboBoxItem Tag="4">4</ComboBoxItem>
+                                            <ComboBoxItem Tag="8">8</ComboBoxItem>
+                                            <ComboBoxItem Tag="16">16</ComboBoxItem>
+                                            <ComboBoxItem Tag="32">32</ComboBoxItem>
+                                        </ComboBox>-->
+                                            <TextBlock x:Name="txtmeasureColorIntegration" Text="4" TextAlignment="Right" />
+                                        </StackPanel>
+                                        <!--<StackPanel Margin="0,15,0,0">
+                                            <TextBlock  Margin="0">積算回数<LineBreak /><TextBlock FontSize="12">積算する回数を指定します。多くすると値が大きくなります。1から8の範囲で入力してください。</TextBlock></TextBlock>
+                                        -->
+                                        <!--<ComboBox SelectedValue="Tag"  Width="300" HorizontalAlignment="Left">
+                                            <ComboBoxItem Tag="1">1</ComboBoxItem>
+                                            <ComboBoxItem Tag="2">2</ComboBoxItem>
+                                            <ComboBoxItem Tag="4">4</ComboBoxItem>
+                                            <ComboBoxItem Tag="8">8</ComboBoxItem>
+                                            <ComboBoxItem Tag="16">16</ComboBoxItem>
+                                            <ComboBoxItem Tag="32">32</ComboBoxItem>
+                                        </ComboBox>-->
+                                        <!--
+                                        <TextBox x:Name="txtmeasureColorAccumulate" Text="1" TextAlignment="Right" />
+                                    </StackPanel>-->
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0 25 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0">測定結果</TextBlock>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Margin="0">
+                                    <StackPanel Margin="0">
+                                        <TextBlock Margin="0 0 0 10">測定時にダイヤモンドの三刺激値、CIE L*C*h*及び白色点の三刺激値を保存します</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,15,0,0">
+                                        <TextBlock>測定データのファイル名</TextBlock>
+                                        <TextBlock Text="ソーティング番号.cmi"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,15,0,0">
+                                        <TextBlock>測定データの保存先</TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox x:Name="txtMesLogPath" Text="" Width="480"></TextBox>
+                                            <!--<Button x:Name="btnOpenDirectoryDialog">...</Button>-->
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0 35 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="8*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0">補正</TextBlock>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Margin="0 0 0 10">測定時に温度変化による照明の変動を補正します</TextBlock>
+                                <TextBlock Margin="0 0 0 10">カメラの感度むらを補正します</TextBlock>
+                            </StackPanel>
+                        </Grid>
+
+                    </StackPanel>
+                    <Grid Margin="0 35 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0">解析</TextBlock>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Margin="0">
+                                <TextBlock Margin="0">解析データの範囲</TextBlock>
+                                <TextBlock Margin="0,5,0,0">以下の三刺激値データの範囲内を有効データとして処理します</TextBlock>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5 10 0 0" Text="下限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="DataRangeMin" Text="0"  TextAlignment="Right" Width="100" IsReadOnly="True"></TextBox>
+                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="DataRangeMax" Text="1023" TextAlignment="Right" Width="100" IsReadOnly="True"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Grid>
+                    <!--<Grid Margin="0 35 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0">表示</TextBlock>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel Margin="0">
+                                <TextBlock Margin="0">結果の表示</TextBlock>
+                                <TextBlock FontSize="14">選択した色空間で結果を表示します</TextBlock>
+                                <StackPanel Margin="0 5 0 0" Orientation="Horizontal">
+                                    <RadioButton x:Name="IsShowLab" Margin="0">L*a*b*</RadioButton>
+                                    <RadioButton x:Name="IsShowLCh" Margin="60 0">L*C*h*</RadioButton>
+                                    <RadioButton x:Name="IsShowLxy" Margin="0 0">Lxy</RadioButton>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="0 10 0 0">
+                                <TextBlock Margin="0">a*b*分布のスケール</TextBlock>
+                                <TextBlock FontSize="14">a*b*分布のスケールを自動または手動で設定します。</TextBlock>
+                                <CheckBox Margin="0 10 0 0" x:Name="IsAutoScaleLAB" IsChecked="True">オートスケール</CheckBox>
+
+                                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+                                    <TextBlock Margin="5 10 0 0" Text="a*"></TextBlock>
+                                    <TextBlock Margin="10 10 0 0" Text="下限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLABAMin" Text="-60"  Width="100"></TextBox>
+                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLABAMax" Text="60" Width="100"></TextBox>
+                                </StackPanel>
+                                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+                                    <TextBlock Margin="5 10 0 0" Text="b*"></TextBlock>
+                                    <TextBlock Margin="10 10 0 0" Text="下限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLABBMin" Text="-60"  Width="100"></TextBox>
+                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLABBMax" Text="60" Width="100"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                            -->
+                    <!--<StackPanel Margin="0 10 0 0">
+                                <TextBlock Margin="0">xyのグラフのスケール</TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5 10 0 0" Text="x"></TextBlock>
+                                    <TextBlock Margin="10 10 0 0" Text="下限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLxyxMin" Text="0.0"  Width="100"></TextBox>
+                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLxyxMax" Text="0.8" Width="100"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="5 10 0 0" Text="y"></TextBlock>
+                                    <TextBlock Margin="10 10 0 0" Text="下限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLxyyMin" Text="0.0"  Width="100"></TextBox>
+                                    <TextBlock Margin="10 10 0 0" Text="上限"></TextBlock>
+                                    <TextBox Margin="10 0" x:Name="ResultLxyyMax" Text="0.9" Width="100"></TextBox>
+                                </StackPanel>
+                            </StackPanel>-->
+                    <!--
+                        </StackPanel>
+                    </Grid>-->
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

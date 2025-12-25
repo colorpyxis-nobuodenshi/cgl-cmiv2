@@ -1,0 +1,192 @@
+﻿<UserControl x:Class="CGLCMIV2App.MeasureAuto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CGLCMIV2App"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             FontWeight="Light"
+             d:DesignHeight="700" d:DesignWidth="1080">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <StackPanel TextElement.FontSize="24">
+                        <StackPanel TextBlock.TextAlignment="Center" Margin="20">
+                            <TextBlock>識別番号</TextBlock>
+                            <TextBlock Text="" Name="serialNumber" Margin="0 20 0 0"/>
+                            <TextBlock  Margin="0 20 0 0">カラーグレード</TextBlock>
+                            <TextBlock Text="" Name="colorGrade" FontSize="60" Foreground="DarkCyan"  Margin="0 20 0 0"/>
+                            <TextBlock  Margin="0 20 0 0">色相角度(h)</TextBlock>
+                            <TextBlock Text="" Name="lchH"  Margin="0 20 0 0"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="0">
+                            <StackPanel x:Name="messagePanel1" Margin="100">
+                                <TextBlock Text="ダイヤモンドをセットしてバーコードをスキャンしてください"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
+                            </StackPanel>
+                            <StackPanel x:Name="messagePanel2" Margin="50">
+                                <TextBlock Text="測定中しばらくお待ちください"  FontSize="22" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
+                                <Image x:Name="monitor" Width="256" Height="192"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <StackPanel>
+                        
+                        
+                        
+                        <StackPanel x:Name="currentReport">
+                            <TextBlock Margin="0 20 0 0" FontSize="18">測定一覧</TextBlock>
+                        <Grid Margin="0 0 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="120"/>
+                                <RowDefinition Height="120"/>
+                                <RowDefinition Height="120"/>
+                                <RowDefinition Height="120"/>
+                                <RowDefinition Height="120"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo1" Text="XXXXXXXX10" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade1" Text="D" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth1" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo2" Text="XXXXXXXX53" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade2" Text="F+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth2" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="0"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo3" Text="******" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade3" Text="" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth3" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="0"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo4" Text="XXXXXXXX21" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade4" Text="K↓" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth4" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo5" Text="XXXXX25XXX" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade5" Text="G+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth5" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo6" Text="******" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade6" Text="" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth6" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo7" Text="XXXXXXX66" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade7" Text="-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth7" Text="90" TextAlignment="Center" FontSize="18" Background="LightPink"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="1"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo8" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade8" Text="H+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth8" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo9" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade9" Text="I-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth9" Text="120" TextAlignment="Center" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center">
+                                <TextBlock x:Name="txtNo10" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                <TextBlock x:Name="txtGrade10" Text="-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                <TextBlock x:Name="txth10" Text="130" TextAlignment="Center" FontSize="18" Background="Transparent" />
+                            </StackPanel>
+                        </Grid>
+                        </StackPanel>
+                        <StackPanel x:Name="prevReport">
+                            <TextBlock Margin="0 20 0 0" FontSize="18">履歴一覧</TextBlock>
+                            <Grid Margin="0 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="120"/>
+                                    <RowDefinition Height="120"/>
+                                    <RowDefinition Height="120"/>
+                                    <RowDefinition Height="120"/>
+                                    <RowDefinition Height="120"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo11" Text="XXXXXXXX10" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade11" Text="D" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth11" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo12" Text="XXXXXXXX53" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade12" Text="F+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth12" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="0"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo13" Text="******" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade13" Text="" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth13" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="0"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo14" Text="XXXXXXXX21" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade14" Text="K↓" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth14" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo15" Text="XXXXX25XXX" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade15" Text="G+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth15" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo16" Text="******" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade16" Text="" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth16" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo17" Text="XXXXXXX66" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade17" Text="-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth17" Text="90" TextAlignment="Center" FontSize="18" Background="LightPink"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo18" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade18" Text="H+" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth18" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo19" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade19" Text="I-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth19" Text="120" TextAlignment="Center" FontSize="18"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center">
+                                    <TextBlock x:Name="txtNo20" Text="XXXXXXXXXX" TextAlignment="Center" FontSize="18" />
+                                    <TextBlock x:Name="txtGrade20" Text="-" TextAlignment="Center" FontSize="28" Foreground="DarkCyan"/>
+                                    <TextBlock x:Name="txth20" Text="130" TextAlignment="Center" FontSize="18" Background="LightSkyBlue" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock FontSize="12" TextAlignment="Center" Margin="5">
+                                [F5] : スキップ [F6] : 取り消し [F7] : ロット削除 [F11] : 履歴一覧  [F12] : 測定一覧
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
