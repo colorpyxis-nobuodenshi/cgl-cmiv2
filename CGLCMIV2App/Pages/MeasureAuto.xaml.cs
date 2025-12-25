@@ -280,7 +280,7 @@ namespace CGLCMIV2App
                                     barcode = barcode.Trim();
                                     if (barcode.Length != 8)
                                     {
-                                        MessageBox.Show("バーコードの読み取りに失敗しました.");
+                                        MessageBox.Show("Barcode reading failed.");
                                         barcode = string.Empty;
                                         break;
                                     }

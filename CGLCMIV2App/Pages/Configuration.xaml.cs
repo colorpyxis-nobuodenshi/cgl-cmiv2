@@ -39,7 +39,7 @@ namespace CGLCMIV2App
                 var l = c.LEDValue;
                 var wp = appStore.ColorimetryCondition.Whitepoint;
                 txtWhitepoint.Text = $"{wp} ({wp.ToYxy()})";
-                txtmeasureColorExposureTime.Text = e == 0 ? "0.066 sec" : e == 1 ? "0.033 sec" : e == 2 ? "0.016 sec" : e == 3 ? "0.01 sec" : "0.033 sec";
+                txtmeasureColorExposureTime.Text = $"{e} msec";
                 txtmeasureColorIntegration.Text = integ.ToString();
                 lValue1.Text = l.D65Value.ToString();
                 lValue2.Text = l.UVValue.ToString();

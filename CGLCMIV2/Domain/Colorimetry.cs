@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CGLCMIV2.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
@@ -7,7 +8,7 @@ namespace CGLCMIV2.Domain
 {
     public class ColorimetryResult
     {
-        public ColorimetryResult(CIEXYZ cxyz, CIELCH clch, CIELAB clab, XYZPixels pixels, MeasureArea area, CIEXYZ whitepoint, CIELAB[] labValues)
+        public ColorimetryResult(CIEXYZ cxyz, CIELCH clch, CIELAB clab, XYZPixels pixels, MeasureArea area, CIEXYZ whitepoint, CIELAB[] labValues, double measurementTemperature)
         {
             CenterOfGravityXYZ = cxyz;
             CenterOfGravityLCH = clch;
@@ -16,6 +17,7 @@ namespace CGLCMIV2.Domain
             MeasureArea = area;
             Whitepoint = whitepoint;
             LABValues = labValues;
+            MeasurementTemperature = measurementTemperature;
         }
 
         public CIEXYZ CenterOfGravityXYZ
@@ -48,12 +50,17 @@ namespace CGLCMIV2.Domain
         {
             get;
         }
+
+        public double MeasurementTemperature
+        {
+            get;
+        }
     }
 
 
     public class ColorimetryReport
     {
-        ColorimetryReport(CIEXYZ cxyz, CIELCH clch, CIELAB clab, string serialnumber, CIEXYZ whitepoint, IList<XYZPixels> pixels)
+        ColorimetryReport(CIEXYZ cxyz, CIELCH clch, CIELAB clab, string serialnumber, CIEXYZ whitepoint, IList<XYZPixels> pixels, double measurementTemperature)
         {
             XYZ = cxyz;
             LCH = clch;
@@ -61,6 +68,7 @@ namespace CGLCMIV2.Domain
             SerialNumber = serialnumber;
             Whitepoint = whitepoint;
             Pixels = pixels;
+            MeasurementTemperature = measurementTemperature;
         }
 
         public CIEXYZ XYZ
@@ -90,6 +98,11 @@ namespace CGLCMIV2.Domain
         {
             get;
         }
+        public double MeasurementTemperature
+        {
+            get;
+        }
+
         public static ColorimetryReport Aggregate(ColorimetryResult[] result, string serialnumber)
         {
             var Xw = result?.Select(a => a.Whitepoint.X).Average();
@@ -110,14 +123,15 @@ namespace CGLCMIV2.Domain
             var cglab = cvlab.CenterOfGravity;
             var cglch = cglab.ToLCH();
             var cgXYZ = cglab.ToXYZ(whitepoint);
+            var temp = result.FirstOrDefault().MeasurementTemperature;
 
-            return new ColorimetryReport(cgXYZ, cglch, cglab, serialnumber, whitepoint, result.Select(x => x.Pixels).ToList());
+            return new ColorimetryReport(cgXYZ, cglch, cglab, serialnumber, whitepoint, result.Select(x => x.Pixels).ToList(), temp);
         }
 
         public static ColorimetryReport Create(ColorimetryResult result, string serialnumber)
         {
 
-            return new ColorimetryReport(result.CenterOfGravityXYZ, result.CenterOfGravityLCH, result.CenterOfGravityLAB, serialnumber, result.Whitepoint, new List<XYZPixels>() { result.Pixels });
+            return new ColorimetryReport(result.CenterOfGravityXYZ, result.CenterOfGravityLCH, result.CenterOfGravityLAB, serialnumber, result.Whitepoint, new List<XYZPixels>() { result.Pixels }, result.MeasurementTemperature);
         }
     }
     public class ColorGradeReport
@@ -207,15 +221,17 @@ namespace CGLCMIV2.Domain
     public interface IColorimetry
     {
         ColorimetryResult Measure(ColorimetryCondition measureCondition);
-        (CIEXYZ whitepoint, CIEXYZ whitepointCorner, XYZPixels pixels) ScanWhitepoint(ColorimetryCondition condition);
+        (CIEXYZ whitepoint, CIEXYZ whitepointStdDev, CIEXYZ whitepointCorner, XYZPixels pixels) ScanWhitepoint(ColorimetryCondition condition);
     }
 
     public class Colorimetry : IColorimetry
     {
         public ICamera _camera;
-        public Colorimetry(ICamera camera)
+        public ILEDLight _ledLight;
+        public Colorimetry(ICamera camera, ILEDLight ledLight)
         {
             _camera = camera;
+            _ledLight = ledLight;
         }
 
         public ColorimetryResult Measure(ColorimetryCondition measureCondition)
@@ -224,8 +240,8 @@ namespace CGLCMIV2.Domain
             var p = _camera.TakePicture(measureCondition.ExposureTime, measureCondition.Integration);
             var area = DetectContour(p);
             p = CorrectShading(p, measureCondition.ShadingCorrectPixels);
-            p = RAW2XYZ(p, measureCondition.RAW2XYZMatrix);
-            var xyzw = CalcWhiteReference(p);
+            p = ConvertRAW2XYZ(p, measureCondition.MultiColorConversionMatrix);
+            var xyzw = WhiteReferenceStatistics(p).average;
             //var p2 = MaskDetectContour(p.Width, p.Height, p.Pix, area.Pixels);
             //var xyz = XYZ1D(p2);
             var xyz = MeasureEffectivePixelValues(p, area);
@@ -239,22 +255,58 @@ namespace CGLCMIV2.Domain
             //var cgXYZ = cvXYZ.CenterOfGravity;
             //var cgLAB = cgXYZ.ToLAB(xyzw3);
             //var cgLCH = cgLAB.ToLCH();
-
-            return new ColorimetryResult(cgXYZ, cgLCH, cgLAB, p, area, xyzw, labValues);
+            var temp = _ledLight.GetTemperature();
+            return new ColorimetryResult(cgXYZ, cgLCH, cgLAB, p, area, xyzw, labValues, temp);
 
         }
 
-        public (CIEXYZ whitepoint, CIEXYZ whitepointCorner, XYZPixels pixels) ScanWhitepoint(ColorimetryCondition condition)
+        public (CIEXYZ whitepoint, CIEXYZ whitepointStdDev, CIEXYZ whitepointCorner, XYZPixels pixels) ScanWhitepoint(ColorimetryCondition condition)
         {
             var pixels = _camera.TakePicture(condition.ExposureTime, condition.Integration);
             pixels = CorrectShading(pixels, condition.ShadingCorrectPixels);
-            pixels = RAW2XYZ(pixels, condition.RAW2XYZMatrix);
+            pixels = ConvertRAW2XYZ(pixels, condition.MultiColorConversionMatrix);
+            var gain = condition.WhitebalanceGain;
+            var pix = pixels.Pix;
+            var len = pixels.Width * pixels.Height;
+            var pix1 = pix.Take(len).Select(x => (ushort)(x * gain[0])).ToArray();
+            var pix2 = pix.Skip(len).Take(len).Select(x => (ushort)(x * gain[1])).ToArray();
+            var pix3 = pix.Skip(len * 2).Take(len).Select(x => (ushort)(x * gain[2])).ToArray();
+            pixels = new XYZPixels(pix1.Concat(pix2).Concat(pix3).ToArray(), pixels.Width, pixels.Height);
+            var v2 = WhiteReferenceStatistics(pixels);
+            var v1 = WhiteReferenceStatistics(new ROI(1024 / 2 - 100, 768 / 2 - 87, 200, 175), pixels);
 
-            //var v1 = CalcWhiteReference(new ROI(314, 234, 400, 300), pixels);
-            var v2 = CalcWhiteReference(pixels);
-
-            return (v2, v2, pixels);
+            return (v1.average, v1.stddev, v2.average, pixels);
         }
+
+        public static (double[] ratio, bool replacement) WhitepointComparisonWithSpectralon(CIEXYZ sample,CIEXYZ sampleCorner, CIEXYZ reference, CIEXYZ referenceCorner, int th)
+        {
+            var rx = Math.Abs(sampleCorner.X - sample.X) / sampleCorner.X * 100.0;
+            var ry = Math.Abs(sampleCorner.Y - sample.Y) / sampleCorner.Y * 100.0;
+            var rz = Math.Abs(sampleCorner.Z - sample.Z) / sampleCorner.Z * 100.0;
+            var rspx = Math.Abs(referenceCorner.X - reference.X) / referenceCorner.X * 100.0;
+            var rspy = Math.Abs(referenceCorner.Y - reference.Y) / referenceCorner.Y * 100.0;
+            var rspz = Math.Abs(referenceCorner.Z - reference.Z) / referenceCorner.Z * 100.0;
+
+            var x = rspx == 0 ? 0.1 : rx / rspx;
+            var y = rspy == 0 ? 0.1 : ry / rspy;
+            var z = rspz == 0 ? 0.1 : rz / rspz;
+
+            var replacement = false;
+            if(x >= th)
+            {
+                replacement = true;
+            }
+            if (y >= th)
+            {
+                replacement = true;
+            }
+            if (z >= th)
+            {
+                replacement = true;
+            }
+            return ([x, y, x], replacement);
+        }
+
         public static ShadingCorrectPixels MakeShadingData(XYZPixels pixels)
         {
             
@@ -369,20 +421,68 @@ namespace CGLCMIV2.Domain
             return new ShadingCorrectPixels(tmp, w, h);
         }
 
-        CIEXYZ CalcWhiteReference(ROI roi, XYZPixels pixels)
+        //CIEXYZ CalcWhiteReference(ROI roi, XYZPixels pixels)
+        //{
+        //    var px = roi.X;
+        //    var py = roi.Y;
+        //    var pw = roi.Width;
+        //    var ph = roi.Height;
+
+        //    var x = 0.0;
+        //    var y = 0.0;
+        //    var z = 0.0;
+        //    var n = 0;
+
+        //    var w = pixels.Width;
+        //    var h = pixels.Height;
+
+        //    unsafe
+        //    {
+        //        fixed (ushort* srcBase = pixels.Pix)
+        //        {
+        //            var srcPtr1 = srcBase;
+        //            var srcPtr2 = srcBase + w * h;
+        //            var srcPtr3 = srcBase + w * h * 2;
+
+        //            for (var j = py; j < py + ph; j++)
+        //            {
+        //                for (var i = px; i < px + pw; i++)
+        //                {
+        //                    x += srcPtr1[i + j * w];
+        //                    y += srcPtr2[i + j * w];
+        //                    z += srcPtr3[i + j * w];
+        //                    n++;
+        //                }
+        //            }
+
+        //        }
+        //    }
+
+        //    x = x / n;
+        //    y = y / n;
+        //    z = z / n;
+
+        //    return new CIEXYZ(x, y, z);
+        //}
+
+        (CIEXYZ average, CIEXYZ stddev) WhiteReferenceStatistics(ROI roi, XYZPixels pixels)
         {
             var px = roi.X;
             var py = roi.Y;
             var pw = roi.Width;
             var ph = roi.Height;
 
-            var x = 0.0;
-            var y = 0.0;
-            var z = 0.0;
+            //var x = 0.0;
+            //var y = 0.0;
+            //var z = 0.0;
             var n = 0;
 
             var w = pixels.Width;
             var h = pixels.Height;
+
+            var xx = new double[pw * ph];
+            var yy = new double[pw * ph];
+            var zz = new double[pw * ph];
 
             unsafe
             {
@@ -396,9 +496,12 @@ namespace CGLCMIV2.Domain
                     {
                         for (var i = px; i < px + pw; i++)
                         {
-                            x += srcPtr1[i + j * w];
-                            y += srcPtr2[i + j * w];
-                            z += srcPtr3[i + j * w];
+                            //x += srcPtr1[i + j * w];
+                            //y += srcPtr2[i + j * w];
+                            //z += srcPtr3[i + j * w];
+                            xx[n] = srcPtr1[i + j * w];
+                            yy[n] = srcPtr2[i + j * w];
+                            zz[n] = srcPtr3[i + j * w];
                             n++;
                         }
                     }
@@ -406,14 +509,20 @@ namespace CGLCMIV2.Domain
                 }
             }
 
-            x = x / n;
-            y = y / n;
-            z = z / n;
+            //x = x / n;
+            //y = y / n;
+            //z = z / n;
 
-            return new CIEXYZ(x, y, z);
+            var mean1 = xx.Average();
+            var stddev1 = Math.Sqrt(xx.Select(a => Math.Pow(a - mean1, 2)).Average());
+            var mean2 = yy.Average();
+            var stddev2 = Math.Sqrt(yy.Select(a => Math.Pow(a - mean2, 2)).Average());
+            var mean3 = zz.Average();
+            var stddev3 = Math.Sqrt(zz.Select(a => Math.Pow(a - mean3, 2)).Average());
+
+            return (new CIEXYZ(mean1, mean2, mean3), new CIEXYZ(stddev1, stddev2, stddev3));
         }
-
-        CIEXYZ CalcWhiteReference(XYZPixels pixels)
+        (CIEXYZ average, CIEXYZ stddev) WhiteReferenceStatistics(XYZPixels pixels)
         {
             var offset = 5;
             var xsize = 115;
@@ -421,17 +530,42 @@ namespace CGLCMIV2.Domain
             var w = pixels.Width;
             var h = pixels.Height;
 
-            var xyz1 = CalcWhiteReference(new ROI(offset, offset, xsize, ysize), pixels);
-            var xyz2 = CalcWhiteReference(new ROI(w - offset - xsize, offset, xsize, ysize), pixels);
-            var xyz3 = CalcWhiteReference(new ROI(offset, h - ysize - offset, xsize, ysize), pixels);
-            var xyz4 = CalcWhiteReference(new ROI(w - xsize - offset, h - ysize - offset, xsize, ysize), pixels);
+            var xyz1 = WhiteReferenceStatistics(new ROI(offset, offset, xsize, ysize), pixels);
+            var xyz2 = WhiteReferenceStatistics(new ROI(w - offset - xsize, offset, xsize, ysize), pixels);
+            var xyz3 = WhiteReferenceStatistics(new ROI(offset, h - ysize - offset, xsize, ysize), pixels);
+            var xyz4 = WhiteReferenceStatistics(new ROI(w - xsize - offset, h - ysize - offset, xsize, ysize), pixels);
 
-            var x = (xyz1.X + xyz2.X + xyz3.X + xyz4.X) / 4.0;
-            var y = (xyz1.Y + xyz2.Y + xyz3.Y + xyz4.Y) / 4.0;
-            var z = (xyz1.Z + xyz2.Z + xyz3.Z + xyz4.Z) / 4.0;
+            var x = (xyz1.average.X + xyz2.average.X + xyz3.average.X + xyz4.average.X) / 4.0;
+            var y = (xyz1.average.Y + xyz2.average.Y + xyz3.average.Y + xyz4.average.Y) / 4.0;
+            var z = (xyz1.average.Z + xyz2.average.Z + xyz3.average.Z + xyz4.average.Z) / 4.0;
 
-            return new CIEXYZ(x, y, z);
+            var xsd = (xyz1.stddev.X + xyz2.stddev.X + xyz3.stddev.X + xyz4.stddev.X) / 4.0;
+            var ysd = (xyz1.stddev.Y + xyz2.stddev.Y + xyz3.stddev.Y + xyz4.stddev.Y) / 4.0;
+            var zsd = (xyz1.stddev.Z + xyz2.stddev.Z + xyz3.stddev.Z + xyz4.stddev.Z) / 4.0;
+
+
+            return (new CIEXYZ(x, y, z), new CIEXYZ(xsd, ysd, zsd));
         }
+
+        //CIEXYZ CalcWhiteReference(XYZPixels pixels)
+        //{
+        //    var offset = 5;
+        //    var xsize = 115;
+        //    var ysize = 85;
+        //    var w = pixels.Width;
+        //    var h = pixels.Height;
+
+        //    var xyz1 = CalcWhiteReference(new ROI(offset, offset, xsize, ysize), pixels);
+        //    var xyz2 = CalcWhiteReference(new ROI(w - offset - xsize, offset, xsize, ysize), pixels);
+        //    var xyz3 = CalcWhiteReference(new ROI(offset, h - ysize - offset, xsize, ysize), pixels);
+        //    var xyz4 = CalcWhiteReference(new ROI(w - xsize - offset, h - ysize - offset, xsize, ysize), pixels);
+
+        //    var x = (xyz1.X + xyz2.X + xyz3.X + xyz4.X) / 4.0;
+        //    var y = (xyz1.Y + xyz2.Y + xyz3.Y + xyz4.Y) / 4.0;
+        //    var z = (xyz1.Z + xyz2.Z + xyz3.Z + xyz4.Z) / 4.0;
+
+        //    return new CIEXYZ(x, y, z);
+        //}
 
         XYZPixels CorrectWhite(XYZPixels value, double[] factor)
         {
@@ -541,12 +675,11 @@ namespace CGLCMIV2.Domain
             return new MeasureArea(w, h, contour);
         }
 
-        XYZPixels RAW2XYZ(XYZPixels value, double[][] raw2XYZMatrix)
+        public static XYZPixels ConvertRAW2XYZ(XYZPixels value, MultiColorConversionMatrix ccm)
         {
             var w = value.Width;
             var h = value.Height;
             var pixels = value.Pix;
-            var mat = raw2XYZMatrix;
             var dst = new ushort[w * h * 3];
 
             unsafe
@@ -569,13 +702,19 @@ namespace CGLCMIV2.Domain
                         var s2 = (double)*(srcPtr2);
                         var s3 = (double)*(srcPtr3);
 
-                        var x = mat[0][0] * s1 + mat[0][1] * s2 + mat[0][2] * s3;
-                        var y = mat[1][0] * s1 + mat[1][1] * s2 + mat[1][2] * s3;
-                        var z = mat[2][0] * s1 + mat[2][1] * s2 + mat[2][2] * s3;
-
-                        *(dstPtr1) = (ushort)(x < 0 ? 0 : (ushort)x);
-                        *(dstPtr2) = (ushort)(y < 0 ? 0 : (ushort)y);
-                        *(dstPtr3) = (ushort)(z < 0 ? 0 : (ushort)z);
+                        //var x = s1 / (s1 + s2 + s3);
+                        //var y = s2 / (s1 + s2 + s3);
+                        //var u = 4 * x / (-2 * x + 12 * y + 3);
+                        //var v = 9 * y / (-2 * x + 12 * y + 3);
+                        var u = 4 * s1 / (s1 + 15 * s2 + 3 * s3);
+                        var v = 9 * s2 / (s1 + 15 * s2 + 3 * s3);
+                        var mat = ccm.Find(u, v);
+                        var X = mat[0][0] * s1 + mat[0][1] * s2 + mat[0][2] * s3;
+                        var Y = mat[1][0] * s1 + mat[1][1] * s2 + mat[1][2] * s3;
+                        var Z = mat[2][0] * s1 + mat[2][1] * s2 + mat[2][2] * s3;
+                        *(dstPtr1) = (ushort)(X < 0 ? 0 : (ushort)X);
+                        *(dstPtr2) = (ushort)(Y < 0 ? 0 : (ushort)Y);
+                        *(dstPtr3) = (ushort)(Z < 0 ? 0 : (ushort)Z);
 
                         srcPtr1++;
                         srcPtr2++;

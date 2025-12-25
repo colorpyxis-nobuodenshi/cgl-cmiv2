@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CGLCMIV2.Application;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace CGLCMIV2.Domain
 
     public interface IWhitepointWriter
     {
-        void Write(CIEXYZ whitepoint, double temperature, double opticalpower, string processingDatetime, string systemSerialNumber);
+        //void Write(CIEXYZ whitepoint, double temperature, double opticalpower, string processingDatetime, string systemSerialNumber);
+        void Write(string message);
     }
 
     public class ColorGrade
@@ -161,6 +163,39 @@ namespace CGLCMIV2.Domain
         }
     }
 
+    public class MultiColorConversionMatrix
+    {
+        //public record ColorConversionMatrix
+        //{
+        //    public double U1 { get; }
+        //    public double U2 { get; }
+        //    public double V1 { get; }
+        //    public double V2 { get; }
+        //    public double[][] Matrix { get; }
+
+        //}
+        MultiColorConversionMatrix(ColorConversionMatrix[] ccm)
+        {
+            CCM = ccm;
+        }
+        public static MultiColorConversionMatrix Load(ColorConversionMatrix[] ccm)
+        {
+            return new MultiColorConversionMatrix(ccm);
+        }
+
+        public double[][] Find(double u, double v)
+        {
+            foreach(var m in CCM)
+            {
+                if(u >= m.U[0] && u <= m.U[1] && v >= m.V[0] && v <= m.V[1])
+                {
+                    return m.Mat;
+                }
+            }
+            return [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
+        }
+        public ColorConversionMatrix[] CCM { get; }
+    }
     public struct ROI
     {
         public ROI(int x, int y, int w, int h)
@@ -415,29 +450,35 @@ namespace CGLCMIV2.Domain
         public int ExposureTime { get; }
         public int Integration { get; }
         public ShadingCorrectPixels ShadingCorrectPixels { get; }
-        public double[][] RAW2XYZMatrix { get; }
+        //public double[][] RAW2XYZMatrix { get; }
         public CIEXYZ Whitepoint { get; }
         public CIEXYZ WhitepointForCorrect { get; }
         public (int D65Value, int UVValue) LEDValue { get; }
         public int MeasurePoint { get; }
         public double[] LabCorrectMat { get; }
-        protected ColorimetryCondition(int exposureTime, int integration, ShadingCorrectPixels correctPixels, double[][] mat, CIEXYZ whitepoint, CIEXYZ whitepointForCorrection, (int D65, int UV) ledValue, int measurePoint, double[] labMat)
+        public CIEXYZ WhitepointOnSpectralon { get; }
+        public CIEXYZ WhitepointForCorrectionOnSpectralon { get; }
+        public double[] WhitebalanceGain { get; }
+        public MultiColorConversionMatrix MultiColorConversionMatrix { get; set; }
+        protected ColorimetryCondition(int exposureTime, int integration, ShadingCorrectPixels correctPixels, MultiColorConversionMatrix mccm, CIEXYZ whitepoint, CIEXYZ whitepointForCorrection, (int D65, int UV) ledValue, int measurePoint, double[] labMat, CIEXYZ whitepointOnSpectralon, CIEXYZ whitepointForCorrectionOnSpectralon, double[] whitebalanceGain)
         {
             ExposureTime = exposureTime;
             Integration = integration;
             ShadingCorrectPixels = correctPixels;
-            RAW2XYZMatrix = mat;
+            MultiColorConversionMatrix = mccm;
             Whitepoint = whitepoint;
             WhitepointForCorrect = whitepointForCorrection;
             LEDValue = ledValue;
             MeasurePoint = measurePoint;
             LabCorrectMat = labMat;
-
+            WhitepointOnSpectralon = whitepointOnSpectralon;
+            WhitepointForCorrectionOnSpectralon = whitepointForCorrectionOnSpectralon;
+            WhitebalanceGain = whitebalanceGain;
         }
 
-        public static ColorimetryCondition Create(int exposureTime, int integration, ShadingCorrectPixels correctPixels, double[][] mat, CIEXYZ whitepoint, CIEXYZ whitepointForCorrection, (int D65, int UV) ledValue, int measurePoint, double[] labMat)
+        public static ColorimetryCondition Create(int exposureTime, int integration, ShadingCorrectPixels correctPixels, MultiColorConversionMatrix mccm, CIEXYZ whitepoint, CIEXYZ whitepointForCorrection, (int D65, int UV) ledValue, int measurePoint, double[] labMat, CIEXYZ whitepointOnSpectralon, CIEXYZ whitepointForCorrectionOnSpectralon, double[] whitebalanceGain)
         {
-            return new ColorimetryCondition(exposureTime, integration, correctPixels, mat, whitepoint, whitepointForCorrection, ledValue, measurePoint, labMat);
+            return new ColorimetryCondition(exposureTime, integration, correctPixels, mccm, whitepoint, whitepointForCorrection, ledValue, measurePoint, labMat, whitepointOnSpectralon, whitepointForCorrectionOnSpectralon, whitebalanceGain);
         }
         
     }
@@ -847,4 +888,67 @@ namespace CGLCMIV2.Domain
             return $"{SerialNumber},{ColorGrade.ToString()},D65,{LCH.L},{LCH.C},{LCH.H},{XYZ.X},{XYZ.Y},{XYZ.Z},White,{Whitepoint.X},{Whitepoint.Y},{Whitepoint.Z},{MeasureDate}";
         }
     }
+
+    public class DegreeOfContamination
+    {
+        public DegreeOfContamination(bool replacementTiming, double[] dirtRatio, WhitepointOnPtfeStage ptfestage, WhitepointOnSpectralon spectralon)
+        {
+            ReplacementTiming = replacementTiming;
+            DirtRatio = dirtRatio;
+            PtfeStage = ptfestage;
+            Spectralon = spectralon;
+        }
+
+        public double[] DirtRatio { get; }
+        public bool ReplacementTiming { get; }
+        public WhitepointOnPtfeStage PtfeStage { get; }
+        public WhitepointOnSpectralon Spectralon { get; }
+        public class WhitepointOnPtfeStage
+        {
+            public WhitepointOnPtfeStage(CIEXYZ whitepoint, CIEXYZ whitepointOfCorner, CIEXYZ stddev)
+            {
+                Whitepoint = whitepoint;
+                WhitepointOfCorner = whitepointOfCorner;
+                StdDev = stddev;
+            }
+            public CIEXYZ Whitepoint { get; }
+            public CIEXYZ WhitepointOfCorner { get; }
+            public CIEXYZ StdDev { get; }
+        }
+
+        public class WhitepointOnSpectralon
+        {
+            public WhitepointOnSpectralon(CIEXYZ whitepoint, CIEXYZ whitepointOfCorner, CIEXYZ stddev)
+            {
+                Whitepoint = whitepoint;
+                WhitepointOfCorner = whitepointOfCorner;
+                StdDev = stddev;
+            }
+            public CIEXYZ Whitepoint { get; }
+            public CIEXYZ WhitepointOfCorner { get; }
+            public CIEXYZ StdDev { get; }
+        }
+    }
+    //public record MeasurementEnviroment
+    //{
+    //    public MeasurementEnviroment(double temperature1, double temperature2, double opticalPower = 0.0)
+    //    {
+    //        TemperatureOnLED = temperature1;
+    //        TemperatureOnDevice = temperature2;
+    //        OpticalPower = opticalPower;
+    //    }
+
+    //    public double TemperatureOnLED
+    //    {
+    //        get;
+    //    }
+    //    public double TemperatureOnDevice
+    //    {
+    //        get;
+    //    }
+    //    public double OpticalPower
+    //    {
+    //        get;
+    //    }
+    //}
 }

@@ -19,12 +19,10 @@
                 <Grid Grid.Column="0">
                     <StackPanel TextElement.FontSize="20" >
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Text="識別番号"/>
+                            <TextBlock Text="Serialnumber"/>
                             <TextBlock Text="" x:Name="serialNumber"  HorizontalAlignment="Right" Margin="200,0,0,0"/>
                         </StackPanel>
                         <StackPanel Margin="0,0,0,0">
-                            <!--<TextBlock Text="カラーグレード"/>
-                            <TextBlock Text="蛍光性"/>-->
                         </StackPanel>
                         <Grid >
                             <Grid.ColumnDefinitions>
@@ -71,97 +69,7 @@
                                     <TextBlock Grid.Column="1" Grid.Row="1" x:Name="ResultLCH" Text="0.00, 0.000, 0.000" TextAlignment="Right"/>
                                     <TextBlock Grid.Column="1" Grid.Row="2" x:Name="ResultXYZ" Text="0.00, 0.000, 0.000" TextAlignment="Right"/>
                                 </Grid>
-                                <!--<Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="L*"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELabL" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELabLStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="a*"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELabA" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELabAStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="b*"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELabB" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELabBStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="C*"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELChC" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELChCStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="h*"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELChH" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELChHStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="x"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELxyX" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELxyXStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="y"/>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="CIELxyY" Text="0" FontSize="30" TextAlignment="Right"/>
-                                        -->
-                                <!--<TextBlock x:Name="CIELxyYStdDev" Text="0" FontSize="12" TextAlignment="Right" VerticalAlignment="Bottom" Width="60"/>-->
-                                <!--
-                                    </StackPanel>
-                                </Grid>-->
+                                
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="1" Width="220" TextElement.FontSize="12" Margin="0">
                                 <local:CIELABChart XAxisMin="-10" XAxisMax="10" YAxisMin="-10" YAxisMax="10" XAxisTick="5" YAxisTick="5" x:Name="labChart1" Width="200" Height="200" Margin=" 0 20 0 0"/>
@@ -172,36 +80,33 @@
                                 
                                 <StackPanel>
                                     <StackPanel Margin="10">
-                                        <TextBlock x:Name="message" Text="測定中しばらくお待ちください"  FontSize="24" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock x:Name="message" Text="Please wait while measuring"  FontSize="24" TextAlignment="Center" Width="300" TextWrapping="Wrap"></TextBlock>
                                     </StackPanel>
-                                    <!--<TextBlock Margin="0,0,0,0">操作パネル</TextBlock>-->
                                     <StackPanel Width="370" TextElement.FontSize="16">
                                         <StackPanel Cursor="Hand">
-                                            <GroupBox Header="     測定モード">
+                                            <GroupBox Header="     Measurement mode">
                                                 <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <RadioButton IsChecked="True" x:Name="mode1" Content="８測定" Focusable="False"/>
-                                                        <RadioButton x:Name="mode2" Margin="33 0" Content="１点測定" Focusable="False" />
+                                                        <RadioButton IsChecked="True" x:Name="mode1" Content="8point" Focusable="False"/>
+                                                        <RadioButton x:Name="mode2" Margin="33 0" Content="1point" Focusable="False" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </GroupBox>
-                                            <GroupBox Header=" 　位置決め" x:Name="gbox1">
+                                            <GroupBox Header=" 　Positioning" x:Name="gbox1">
                                                 <StackPanel>
-                                                    <!--<Button x:Name="btnStart" Width="170">開始</Button>-->
                                                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                                                         <Button x:Name="btnRotate1" Width="50" Content="45+" IsEnabled="False" FontSize="10"/>
                                                         <Button x:Name="btnRotate3" Width="50" Content="+" IsEnabled="False"/>
                                                         <Button x:Name="btnRotate4" Width="50" Content="-" IsEnabled="False"/>
                                                         <Button x:Name="btnRotate2" Width="50" Content="45-" IsEnabled="False" FontSize="10" Cursor="Hand"/>
-                                                        <!--<Button x:Name="btnRotate4" Width="50" Content="H"/>-->
-                                                        <Button x:Name="btnMove1" Width="53" Content="上昇" FontSize="10" IsEnabled="False"/>
-                                                        <Button x:Name="btnMove2" Width="53" Content="下降" FontSize="10" IsEnabled="False"/>
+                                                        <Button x:Name="btnMove1" Width="53" Content="Up" FontSize="10" IsEnabled="False"/>
+                                                        <Button x:Name="btnMove2" Width="53" Content="Down" FontSize="10" IsEnabled="False"/>
                                                     </StackPanel>
                                                 </StackPanel>
                                             </GroupBox>
-                                            <GroupBox Header=" 　測定" x:Name="gbox2">
+                                            <GroupBox Header=" 　Measurement" x:Name="gbox2">
                                                 <StackPanel Margin="0,0,0,0">
-                                                    <Button x:Name="btnMeasure" Width="170" Content="測色"/>
+                                                    <Button x:Name="btnMeasure" Width="170" Content="Colorimetry"/>
                                                 </StackPanel>
                                             </GroupBox>
 
@@ -215,8 +120,8 @@
                 <Grid Grid.Column="1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <RadioButton IsChecked="True" Content="モニタ" GroupName="ResultPanel" x:Name="rdbResultMonitor" Margin="50,0,0,0"/>
-                            <RadioButton IsChecked="False" Content="測定画像" GroupName="ResultPanel" x:Name="rdbResultCapture" Margin="170,0,0,0"/>
+                            <RadioButton IsChecked="True" Content="Monitor" GroupName="ResultPanel" x:Name="rdbResultMonitor" Margin="50,0,0,0"/>
+                            <RadioButton IsChecked="False" Content="Measured image" GroupName="ResultPanel" x:Name="rdbResultCapture" Margin="170,0,0,0"/>
                         </StackPanel>
                         <Grid Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibility}, ElementName=rdbResultMonitor}">
                             <Image x:Name="monitor" Width="512" Height="384" Stretch="Fill"/>
@@ -225,12 +130,11 @@
                             <Image x:Name="capture" Width="512" Height="384" Stretch="Fill"/>
                         </Grid>
 
-                        <!--<TextBlock Text="測定履歴"/>-->
+                        <TextBlock Text="Measurement History"/>
                         <ListView x:Name="listView1" TextElement.FontSize="14" Height="300">
                             <ListView.View>
                                 <GridView x:Name="gridView1">
-                                    <GridViewColumn Header="識別番号" DisplayMemberBinding="{Binding [0]}"  Width="130">
-
+                                    <GridViewColumn Header="serialnumber" DisplayMemberBinding="{Binding [0]}"  Width="150">
                                     </GridViewColumn>
                                     <GridViewColumn Header="L*C*h*" DisplayMemberBinding="{Binding [1]}"  Width="130">
 

@@ -156,19 +156,41 @@ namespace CGLCMIV2.Application
     }
     public class ScanWhitepointCompletedEvent : IEvent
     {
-        public ScanWhitepointCompletedEvent(CIEXYZ whitepoint, CIEXYZ whitepointCorner, string processingDatetime, double temperature, double opticalpower)
+        public ScanWhitepointCompletedEvent(CIEXYZ whitepoint, CIEXYZ whitepointCorner, string processingDatetime, double temperature, double opticalpower, bool replacementTiming, CIEXYZ whitepointStddev)
         {
             Whitepoint = whitepoint;
             WhitepointCorner = whitepointCorner;
             ProcessingDatetime = processingDatetime;
             Temperatue = temperature;
             Opticalpower = opticalpower;
+            ReplacementTiming = replacementTiming;
+            WhitepointStddev = whitepointStddev;
         }
         public CIEXYZ Whitepoint { get; }
         public CIEXYZ WhitepointCorner { get; }
         public string ProcessingDatetime { get; }
         public double Temperatue { get; }
         public double Opticalpower { get; }
+        public bool ReplacementTiming { get; }
+        public CIEXYZ WhitepointStddev { get; }
+    }
+    public class ScanWhitepointOnSpectralonCompletedEvent : IEvent
+    {
+        public ScanWhitepointOnSpectralonCompletedEvent(CIEXYZ whitepoint, CIEXYZ whitepointCorner, string processingDatetime, double temperature, double opticalpower, CIEXYZ whitepointStddev)
+        {
+            Whitepoint = whitepoint;
+            WhitepointCorner = whitepointCorner;
+            ProcessingDatetime = processingDatetime;
+            Temperatue = temperature;
+            Opticalpower = opticalpower;
+            WhitepointStddev = whitepointStddev;
+        }
+        public CIEXYZ Whitepoint { get; }
+        public CIEXYZ WhitepointCorner { get; }
+        public string ProcessingDatetime { get; }
+        public double Temperatue { get; }
+        public double Opticalpower { get; }
+        public CIEXYZ WhitepointStddev { get; }
     }
 
     public class ScanLEDCompletedEvent : IEvent

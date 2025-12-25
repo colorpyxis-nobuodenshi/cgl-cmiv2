@@ -38,6 +38,7 @@ namespace CGLCMIV2App
             var makeShadingData = serviceProvider.GetService<MakeShadingData>();
             var ledPowerChange = serviceProvider.GetService<LEDPowerChange>();
             var messageWindow = serviceProvider.GetService<IMessageWindow>();
+            var scanWhitepoint3 = serviceProvider.GetService<ScanWhitepointOnSpectralon>();
 
             var appStore = serviceProvider.GetService<AppStore>();
             var condition = appStore.ColorimetryCondition;
@@ -50,23 +51,38 @@ namespace CGLCMIV2App
             var wpc = condition.WhitepointForCorrect;
             CalibrateWhitepoint.Text = $"{wp.ToString()}   ({wpc.ToString()})";
             CalibrateWhitepointYxy.Text = $"{wp.ToYxy().ToString()}   ({wpc.ToYxy().ToString()})";
+            wp = condition.WhitepointOnSpectralon;
+            wpc = condition.WhitepointForCorrectionOnSpectralon;
+            CalibrateWhitepointOnSpectralon.Text = $"{wp.ToString()}   ({wpc.ToString()})";
+            CalibrateWhitepointYxyOnSpectralon.Text = $"{wp.ToYxy().ToString()}   ({wpc.ToYxy().ToString()})";
             CalibrateDateWhitepoint.Text = appStore.CalibrateLatestDate.Whitepoint;
+            CalibrateDateWhitepointOnSpectralon.Text = appStore.CalibrateLatestDate.WhitepointOnSpectralon;
+
             btnGetWhitepoint.Click += async delegate
             {
                 btnGetWhitepoint.IsEnabled = false;
                 messageWindow = serviceProvider.GetService<IMessageWindow>();
-                messageWindow?.Show("白色点を取得しています。", ViewController.Instance.MainWindow);
+                messageWindow?.Show("Getting the white point.", ViewController.Instance.MainWindow);
                 await scanWhitepoint.ExecuteAsync(appStore.ColorimetryCondition);
+                messageWindow?.Close();
+                btnGetWhitepoint.IsEnabled = true;
+            };
+            btnGetSpectralon.Click += async delegate
+            {
+                btnGetWhitepoint.IsEnabled = false;
+                messageWindow = serviceProvider.GetService<IMessageWindow>();
+                messageWindow?.Show("Getting the white point on spectralon.", ViewController.Instance.MainWindow);
+                await scanWhitepoint3.ExecuteAsync(appStore.ColorimetryCondition);
                 messageWindow?.Close();
                 btnGetWhitepoint.IsEnabled = true;
             };
             btnMakeShadingCorrectPixels.Click += async delegate
             {
-                if(MessageBox.Show("感度むら補正データを作成しますか？", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if(MessageBox.Show("Do you want to create sensitivity unevenness correction data?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     btnMakeShadingCorrectPixels.IsEnabled = false;
                     messageWindow = serviceProvider.GetService<IMessageWindow>();
-                    messageWindow?.Show("感度むら補正データ作成中\r\nしばらくお待ちください", ViewController.Instance.MainWindow);
+                    messageWindow?.Show("Creating sensitivity unevenness correction data\r\nPlease wait for a while.", ViewController.Instance.MainWindow);
                     await makeShadingData.ExecuteAsync(appStore.ColorimetryCondition);
                     messageWindow?.Close();
                     btnMakeShadingCorrectPixels.IsEnabled = true;
@@ -96,6 +112,24 @@ namespace CGLCMIV2App
                 btnAutoStageWorksetpoint.IsEnabled = false;
                 await serviceProvider.GetService<AutoStageMoveWorkSetPoint>().ExecuteAsync();
                 btnAutoStageWorksetpoint.IsEnabled = true;
+            };
+            btnAutoStageMeasurepointBySpectralon.Click += async delegate
+            {
+                btnAutoStageMeasurepointBySpectralon.IsEnabled = false;
+                await serviceProvider.GetService<AutoStageMoveMeasurePointOnSpectralon>().ExecuteAsync();
+                btnAutoStageMeasurepointBySpectralon.IsEnabled = true;
+            };
+            btnAutoStageReplacementpoint.Click += async delegate
+            {
+                btnAutoStageReplacementpoint.IsEnabled = false;
+                await serviceProvider.GetService<AutoStageMoveReplacementPoint>().ExecuteAsync();
+                btnAutoStageReplacementpoint.IsEnabled = true;
+            };
+            btnAutoStageReplacementpoint2.Click += async delegate
+            {
+                btnAutoStageReplacementpoint.IsEnabled = false;
+                await serviceProvider.GetService<AutoStageMoveReplacementPoint>().ExecuteAsync();
+                btnAutoStageReplacementpoint.IsEnabled = true;
             };
             btnAutoStageRotateCW45.Click += async delegate 
             {
@@ -141,7 +175,7 @@ namespace CGLCMIV2App
                         //imgCameraPixels.Width = w;
                         //imgCameraPixels.Height = h;
                     });
-                }, cameraCaptureStopTokenSource, 1);
+                }, cameraCaptureStopTokenSource);
             };
             btnCameraLiveStop.Click += delegate
             {
@@ -196,9 +230,15 @@ namespace CGLCMIV2App
 
             appStore.Subscribe<ScanWhitepointCompletedEvent>(a =>
             {
-            CalibrateWhitepoint.Text = $"{a.Whitepoint}";// ({a.WhitepointForCorrection})";
-            CalibrateWhitepointYxy.Text = $"{a.Whitepoint.ToYxy()}";// ({a.WhitepointForCorrection.ToYxy()})";
+                CalibrateWhitepoint.Text = $"{a.Whitepoint.ToString()}   ({a.WhitepointCorner.ToString()})";
+                CalibrateWhitepointYxy.Text = $"{a.Whitepoint.ToYxy().ToString()}   ({a.WhitepointCorner.ToYxy().ToString()})";
                 CalibrateDateWhitepoint.Text = a.ProcessingDatetime;
+            });
+            appStore.Subscribe<ScanWhitepointOnSpectralonCompletedEvent>(a =>
+            {
+                CalibrateWhitepointOnSpectralon.Text = $"{a.Whitepoint.ToString()}   ({a.WhitepointCorner.ToString()})";
+                CalibrateWhitepointYxyOnSpectralon.Text = $"{a.Whitepoint.ToYxy().ToString()}   ({a.WhitepointCorner.ToYxy().ToString()})";
+                CalibrateDateWhitepointOnSpectralon.Text = a.ProcessingDatetime;
             });
             appStore.Subscribe<ChangeLEDPowerCompletedEvent>(a =>
             {

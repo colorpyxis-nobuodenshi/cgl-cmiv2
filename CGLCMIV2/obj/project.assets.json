@@ -1,7 +1,58 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
+    "net8.0": {
+      "ic4dotnet/1.0.2.2420": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ic4dotnet.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ic4dotnet.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/ic4dotnet.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win-x64/native/ic4_dutils_avx2.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/ic4core.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/ic4plugin_display_win32_opengl.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/ic4plugin_video_win32_h26x.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      },
+      "ic4dotnet.OpenCvSharp/1.0.2.2420": {
+        "type": "package",
+        "dependencies": {
+          "OpenCvSharp4": "4.7.0.20230115",
+          "ic4dotnet": "1.0.2.2420"
+        },
+        "compile": {
+          "lib/net6.0/ic4dotnet.OpenCvSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ic4dotnet.OpenCvSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.NETCore.Platforms/5.0.0": {
         "type": "package",
         "compile": {
@@ -40,6 +91,47 @@
           "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "OpenCvSharp4/4.10.0.20240616": {
+        "type": "package",
+        "dependencies": {
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/OpenCvSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/OpenCvSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "OpenCvSharp4.runtime.win/4.10.0.20240616": {
+        "type": "package",
+        "build": {
+          "build/net5.0/OpenCvSharp4.runtime.win.props": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win-x64/native/OpenCvSharpExtern.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/opencv_videoio_ffmpeg4100_64.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/OpenCvSharpExtern.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/opencv_videoio_ffmpeg4100.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
           }
         }
       },
@@ -235,6 +327,15 @@
           }
         }
       },
+      "System.Memory/4.5.5": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
+        }
+      },
       "System.Reactive/5.0.0": {
         "type": "package",
         "compile": {
@@ -261,6 +362,22 @@
           "ref/netstandard1.5/System.Runtime.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
       "System.Runtime.Handles/4.0.1": {
@@ -378,6 +495,45 @@
     }
   },
   "libraries": {
+    "ic4dotnet/1.0.2.2420": {
+      "sha512": "yjHminuB0puf2xINZtV0Q974tWSzIwkuJAusapp3duooPfD+L/3nhfGDnuzxU5YtOUHH+hDUaJDhPKmv3JSb4A==",
+      "type": "package",
+      "path": "ic4dotnet/1.0.2.2420",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/ic4dotnet.targets",
+        "ic4dotnet.1.0.2.2420.nupkg.sha512",
+        "ic4dotnet.nuspec",
+        "lib/net45/ic4dotnet.dll",
+        "lib/net45/ic4dotnet.xml",
+        "lib/net6.0/ic4dotnet.dll",
+        "lib/net6.0/ic4dotnet.xml",
+        "license.txt",
+        "readme.md",
+        "runtimes/win-x64/native/ic4_dutils_avx2.dll",
+        "runtimes/win-x64/native/ic4core.dll",
+        "runtimes/win-x64/native/ic4plugin_display_win32_opengl.dll",
+        "runtimes/win-x64/native/ic4plugin_video_win32_h26x.dll"
+      ]
+    },
+    "ic4dotnet.OpenCvSharp/1.0.2.2420": {
+      "sha512": "staICfIGMNI+Jf3QkpCwTanx66DUov4T6rsS7m9p0AUR8dXItX+mKB47q7iBk0FrQS5cPhWxXxaEMPrE90ZTew==",
+      "type": "package",
+      "path": "ic4dotnet.opencvsharp/1.0.2.2420",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ic4dotnet.opencvsharp.1.0.2.2420.nupkg.sha512",
+        "ic4dotnet.opencvsharp.nuspec",
+        "lib/net48/ic4dotnet.OpenCvSharp.dll",
+        "lib/net48/ic4dotnet.OpenCvSharp.xml",
+        "lib/net6.0/ic4dotnet.OpenCvSharp.dll",
+        "lib/net6.0/ic4dotnet.OpenCvSharp.xml",
+        "license.txt",
+        "readme.md"
+      ]
+    },
     "Microsoft.NETCore.Platforms/5.0.0": {
       "sha512": "VyPlqzH2wavqquTcYpkIIAQ6WdenuKoFN0BdYBbCWsclXacSOHNQn66Gt4z5NBqEYW0FAPm5rlvki9ZiCij5xQ==",
       "type": "package",
@@ -452,6 +608,44 @@
         "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "OpenCvSharp4/4.10.0.20240616": {
+      "sha512": "+iaFSUq0Cp+B9s1sUqDwB3PvQ5HdWWvRE50WsAw1PL8smD3VZNbe0P786E4Yfu7LHM7jeqkulOwjk2CoihsZeg==",
+      "type": "package",
+      "path": "opencvsharp4/4.10.0.20240616",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net48/OpenCvSharp.dll",
+        "lib/net48/OpenCvSharp.xml",
+        "lib/net6.0/OpenCvSharp.dll",
+        "lib/net6.0/OpenCvSharp.xml",
+        "lib/netstandard2.0/OpenCvSharp.dll",
+        "lib/netstandard2.0/OpenCvSharp.xml",
+        "lib/netstandard2.1/OpenCvSharp.dll",
+        "lib/netstandard2.1/OpenCvSharp.xml",
+        "opencvsharp4.4.10.0.20240616.nupkg.sha512",
+        "opencvsharp4.nuspec"
+      ]
+    },
+    "OpenCvSharp4.runtime.win/4.10.0.20240616": {
+      "sha512": "dpQNIR6PpeB/oZM0e0fZpt9lOS3Htjm6ZjtOgLyxN7QwjRekbNevrmO8VbgezUoetk68CRwxYZGaymCm2vt8Sg==",
+      "type": "package",
+      "path": "opencvsharp4.runtime.win/4.10.0.20240616",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/net48/OpenCvSharp4.runtime.win.props",
+        "build/net5.0/OpenCvSharp4.runtime.win.props",
+        "build/netcoreapp/OpenCvSharp4.runtime.win.props",
+        "build/netstandard/OpenCvSharp4.runtime.win.props",
+        "opencvsharp4.runtime.win.4.10.0.20240616.nupkg.sha512",
+        "opencvsharp4.runtime.win.nuspec",
+        "runtimes/win-x64/native/OpenCvSharpExtern.dll",
+        "runtimes/win-x64/native/opencv_videoio_ffmpeg4100_64.dll",
+        "runtimes/win-x86/native/OpenCvSharpExtern.dll",
+        "runtimes/win-x86/native/opencv_videoio_ffmpeg4100.dll"
       ]
     },
     "runtime.linux-arm.runtime.native.System.IO.Ports/5.0.0-rtm.20519.4": {
@@ -821,6 +1015,29 @@
         "version.txt"
       ]
     },
+    "System.Memory/4.5.5": {
+      "sha512": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
+      "type": "package",
+      "path": "system.memory/4.5.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Memory.dll",
+        "lib/net461/System.Memory.xml",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.1/System.Memory.dll",
+        "lib/netstandard1.1/System.Memory.xml",
+        "lib/netstandard2.0/System.Memory.dll",
+        "lib/netstandard2.0/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
+        "system.memory.4.5.5.nupkg.sha512",
+        "system.memory.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Reactive/5.0.0": {
       "sha512": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
       "type": "package",
@@ -939,6 +1156,31 @@
         "ref/xamarinwatchos10/_._",
         "system.runtime.4.1.0.nupkg.sha512",
         "system.runtime.nuspec"
+      ]
+    },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "type": "package",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.targets",
+        "buildTransitive/netcoreapp3.1/_._",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net461/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/net6.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
+        "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.nuspec",
+        "useSharedDesignerContext.txt"
       ]
     },
     "System.Runtime.Handles/4.0.1": {
@@ -1337,12 +1579,16 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
+    "net8.0": [
+      "OpenCvSharp4 >= 4.10.0.20240616",
+      "OpenCvSharp4.runtime.win >= 4.10.0.20240616",
       "Serilog >= 2.10.0",
       "Serilog.Sinks.File >= 4.1.0",
       "System.IO.Ports >= 5.0.0",
       "System.Management >= 5.0.0",
-      "System.Reactive >= 5.0.0"
+      "System.Reactive >= 5.0.0",
+      "ic4dotnet >= 1.0.2.2420",
+      "ic4dotnet.OpenCvSharp >= 1.0.2.2420"
     ]
   },
   "packageFolders": {
@@ -1351,7 +1597,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "2.1.0",
     "restore": {
       "projectUniqueName": "D:\\projects\\CGL\\CMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2\\CGLCMIV2.csproj",
       "projectName": "CGLCMIV2",
@@ -1369,7 +1615,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "net8.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -1377,8 +1623,8 @@
         "https://www.nuget.org/api/v2": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {}
         }
       },
@@ -1386,12 +1632,25 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
+          "OpenCvSharp4": {
+            "target": "Package",
+            "version": "[4.10.0.20240616, )"
+          },
+          "OpenCvSharp4.runtime.win": {
+            "target": "Package",
+            "version": "[4.10.0.20240616, )"
+          },
           "Serilog": {
             "target": "Package",
             "version": "[2.10.0, )"
@@ -1411,6 +1670,14 @@
           "System.Reactive": {
             "target": "Package",
             "version": "[5.0.0, )"
+          },
+          "ic4dotnet": {
+            "target": "Package",
+            "version": "[1.0.2.2420, )"
+          },
+          "ic4dotnet.OpenCvSharp": {
+            "target": "Package",
+            "version": "[1.0.2.2420, )"
           }
         },
         "imports": [
@@ -1424,22 +1691,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[5.0.0, 5.0.0]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

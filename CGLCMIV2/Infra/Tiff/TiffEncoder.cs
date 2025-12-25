@@ -6,20 +6,29 @@ using System.IO;
 
 namespace Tiff
 {
-    public class TiffEncoder : ImageEncoder
+    public class TiffEncoder : IDisposable
     {
-        private ushort byteOrder = 0x4949;
-        private const int HEADER_SIZE = 8;
-
+        ushort _byteOrder = 0x4949;
+        const int HEADER_SIZE = 8;
+        Stream _stream;
+        string _path;
         public TiffEncoder(string path)
-            : base(path)
         {
-
+            Open(path);
+        }
+        public void Open(string path)
+        {
+            _path = path;
+            _stream = new FileStream(path, FileMode.Create, FileAccess.Write);
         }
 
-        public override void Encode(ImageInfomation info, byte[] pixels)
+        public void Close()
         {
-            var bw = new BinaryWriter(stream, System.Text.Encoding.ASCII);
+            _stream.Close();
+        }
+        public void Encode(TiffInfomation info, byte[] pixels)
+        {
+            var bw = new BinaryWriter(_stream, System.Text.Encoding.ASCII);
             WriteHeader(bw);
             WriteIFD(bw, info);
             WritePixels(bw, pixels);
@@ -27,15 +36,14 @@ namespace Tiff
 
         private void WriteHeader(BinaryWriter bw)
         {
-            bw.Write(byteOrder);
+            bw.Write(_byteOrder);
             bw.Write((ushort)42);
             bw.Write(8);
         }
 
-        private void WriteIFD(BinaryWriter bw, ImageInfomation info)
+        private void WriteIFD(BinaryWriter bw, TiffInfomation info)
         {
-            //var tagCount = 14;
-            var tagCount = 16;
+            var tagCount = 15;
             var ifdSize = 2 + tagCount * 12 + 4;
             var tagDataOffset = HEADER_SIZE + ifdSize;
             var imageSize = info.Width * info.Height * info.Channel * info.Depth / 8;
@@ -47,10 +55,9 @@ namespace Tiff
             var maker = info.Maker;
             var model = info.CameraModel;
             var datetime = string.Format("{0} {1}", info.Date, info.Time);
-            //-2014/04/17 zhang-start
-            var colorSpace = info.ColorSpace;
-            var imageType = info.ImageType;
-            //--2014/04/17 zhang-end
+            var sampleFormat = info.SampleFormat;
+            var planarConfig = info.PlanarConfig;
+            
             var imageOffset = HEADER_SIZE + ifdSize + name.Length + datetime.Length + maker.Length + model.Length;
 
 
@@ -78,10 +85,11 @@ namespace Tiff
                 WriteEntry(bw, TagCode.SamplesPerPixel, TagType.Short, 1, 3);
                 WriteEntry(bw, TagCode.PhotometricInterpretation, TagType.Long, 1, (uint)PhotometricInterpretation.RGB);
             }
-            WriteEntry(bw, TagCode.PlanarConfiguration, TagType.Short, 1, 1);
+            WriteEntry(bw, TagCode.PlanarConfiguration, TagType.Short, 1, (uint)info.PlanarConfig);
+            WriteEntry(bw, TagCode.SampleFormat, TagType.Short, 1, (uint)info.SampleFormat);
             WriteEntry(bw, TagCode.Compression, TagType.Long, 1, (uint)Compression.Uncompressed);
             WriteEntry(bw, TagCode.StripOffsets, TagType.Long, 1, (uint)imageOffset);
-            WriteEntry(bw, TagCode.RowsPerStrip, TagType.Long, 1, (uint)info.Width*3);
+            WriteEntry(bw, TagCode.RowsPerStrip, TagType.Long, 1, (uint)info.Width * 3);
             WriteEntry(bw, TagCode.StripByteCounts, TagType.Long, 1, (uint)imageSize);
             WriteEntry(bw, TagCode.DocumentName, TagType.Ascii, (uint)name.Length, (uint)tagDataOffset);
             tagDataOffset += name.Length;
@@ -91,11 +99,7 @@ namespace Tiff
             tagDataOffset += maker.Length;
             WriteEntry(bw, TagCode.Model, TagType.Ascii, (uint)model.Length, (uint)tagDataOffset);
             tagDataOffset += model.Length;
-            //--2014/04/17 zhang-s
-            WriteEntry(bw, TagCode.ImageType, TagType.Long, 1, (uint)info.ImageType);
-            WriteEntry(bw, TagCode.ColorSpace, TagType.Long, 1, (uint)info.ColorSpace);
-            //--2014/04/17 zhang-e
-
+            
             //
             bw.Write(0);
 
@@ -123,6 +127,12 @@ namespace Tiff
         private void WritePixels(BinaryWriter bw, byte[] pixels)
         {
             bw.Write(pixels, 0, pixels.Length);
+        }
+
+        public void Dispose()
+        {
+            _stream.Close();
+            _stream.Dispose();
         }
     }
 }

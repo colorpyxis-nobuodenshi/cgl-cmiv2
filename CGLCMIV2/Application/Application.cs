@@ -16,10 +16,6 @@ namespace CGLCMIV2.Application
         {
             
         }
-        //public AppLifecycleEvent Lateast
-        //{
-        //    get; private set;
-        //}
         public void Run()
         {
             EventBus.EventBus.Instance.Publish(new AppHardwareDisConnectedEvent());
@@ -167,9 +163,9 @@ namespace CGLCMIV2.Application
                             {
                                 _led.ReadStatus();
                                 var temp = _led.GetTemperature();
-                                var op = _led.GetOpticalPower() * _opticalPowerFactor;
+                                //var op = _led.GetOpticalPower() * _opticalPowerFactor;
                                 EventBus.EventBus.Instance.Publish(new TemperatureChangedEvent(temp));
-                                EventBus.EventBus.Instance.Publish(new OpticalpowerChangedEvent(op));
+                                //EventBus.EventBus.Instance.Publish(new OpticalpowerChangedEvent(op));
                             }
                         }
                         catch(Exception ex)
@@ -211,8 +207,8 @@ namespace CGLCMIV2.Application
                 var lab = a.Report.ColorimetryReport.LAB;
                 var whitePoint = a.Report.ColorimetryReport.Whitepoint;
                 var now = a.Report.CreateDateTime;
-                
-                var message = $"{id},{grade.value},{grade.sufix1},{grade.sufix2},D65,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},White,{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{systemSerialNumber},{now}";
+                var temp1 = a.Report.ColorimetryReport.MeasurementTemperature;
+                var message = $"{id},{grade.value},{grade.sufix1},{grade.sufix2},{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{temp1:F2},{systemSerialNumber},{now}";
                 _measureResultWriter.Write(message);
 
                 if (option.ColorGradingResultOutput)
@@ -241,15 +237,22 @@ namespace CGLCMIV2.Application
                 var lab = a.Report.LAB;
                 var whitePoint = a.Report.Whitepoint;
                 var now = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                
+                var temp1 = a.Report.MeasurementTemperature;
 
-                var message = $"{id},-,-,-,D65,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},White,{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{systemSerialNumber},{now}";
+                var message = $"{id},-,-,-,{lch.L:F2},{lch.C:F4},{lch.H:F2},{lab.A:F4},{lab.B:F4},{xyz.X:F0},{xyz.Y:F0},{xyz.Z:F0},{whitePoint.X:F0},{whitePoint.Y:F0},{whitePoint.Z:F0},{temp1:F2},{systemSerialNumber},{now}";
                 _measureResultWriter.Write(message);
             });
 
             EventBus.EventBus.Instance.Subscribe<ScanWhitepointCompletedEvent>(a =>
             {
-                _whitepointWriter.Write(a.Whitepoint, a.Temperatue, a.Opticalpower, a.ProcessingDatetime, systemSerialNumber);
+                var message = @$"ptfe,{a.Whitepoint.X:F2},{a.Whitepoint.Y:F2},{a.Whitepoint.Z:F2},{a.WhitepointCorner.X:F2},{a.WhitepointCorner.Y:F2},{a.WhitepointCorner.Z:F2},{a.WhitepointStddev.X:F2},{a.WhitepointStddev.Y:F2},{a.WhitepointStddev.Z:F2},{a.Temperatue},{a.ProcessingDatetime}";
+                _whitepointWriter.Write(message); 
+            });
+
+            EventBus.EventBus.Instance.Subscribe<ScanWhitepointOnSpectralonCompletedEvent>(a =>
+            {
+                var message = @$"spectralon,{a.Whitepoint.X:F2},{a.Whitepoint.Y:F2},{a.Whitepoint.Z:F2},{a.WhitepointCorner.X:F2},{a.WhitepointCorner.Y:F2},{a.WhitepointCorner.Z:F2},{a.WhitepointStddev.X:F2},{a.WhitepointStddev.Y:F2},{a.WhitepointStddev.Z:F2},{a.Temperatue},{a.ProcessingDatetime}";
+                _whitepointWriter.Write(message);
             });
         }
     }
@@ -265,27 +268,36 @@ namespace CGLCMIV2.Application
     {
         void Error(Exception ex, string message);
     }
-    public interface IPixelsFileStore<T>
-    {
-        void Execute(string path, Pixels<T> obj); 
-    }
-    public interface IShadingPixelsFileLoader
-    {
-        ShadingCorrectPixels Execte(string path);
-    }
+    //public interface IPixelsFileStore<T>
+    //{
+    //    void Execute(string path, Pixels<T> obj); 
+    //}
+    //public interface IShadingPixelsFileLoader
+    //{
+    //    ShadingCorrectPixels Execte(string path);
+    //}
     public interface IColorGradingConditonFileLoader
     {
         ColorGradingCondition Execute(string path);
     }
-    public interface IShadingPixelsFileStore
-    {
-        void Execte(string path, ShadingCorrectPixels obj);
-    }
+    //public interface IShadingPixelsFileStore
+    //{
+    //    void Execte(string path, ShadingCorrectPixels obj);
+    //}
     public interface IPixelsTiffFileStore
     {
         void Execute(string path, XYZPixels obj);
+        void Execute(string path, ShadingCorrectPixels obj);
         Task ExecuteAsync(string path, XYZPixels obj);
+        Task ExecuteAsync(string path, ShadingCorrectPixels obj);
     }
+    
+    public interface IPixelsTiffFileLoader
+    {
+        ShadingCorrectPixels Execte(string path);
+        Task<ShadingCorrectPixels> ExecuteAsync(string path);
+    }
+
     public interface IInstrumentalErrorCorrectionMatrixFileLoader
     {
         Dictionary<string, double[]> Execute(string path);

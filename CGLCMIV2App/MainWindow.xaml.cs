@@ -48,7 +48,7 @@ namespace CGLCMIV2App
 
             Closing += async (s, e) =>
             {
-                if(MessageBox.Show("終了しますか？","", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if(MessageBox.Show("\r\nDo you want to close the application?", "", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     //MessageBox.Show("装置が運転中です。停止してから終了してください。");
                     //e.Cancel = true;
@@ -81,7 +81,7 @@ namespace CGLCMIV2App
             btnPreStart.Click += async delegate
             {
                 messageWindow = serviceProvider.GetService<IMessageWindow>();
-                messageWindow?.Show("ハードウェア接続\r\nハードウェアチェックをしています。", this);
+                messageWindow?.Show("Hardware connection\r\nChecking hardware.", this);
                 await serviceProvider.GetService<ConnectHardware>().ExecuteAsync();
                 messageWindow?.Close();
                 
@@ -94,7 +94,7 @@ namespace CGLCMIV2App
             btnStart.Click += async delegate
             {
                 messageWindow = serviceProvider.GetService<IMessageWindow>();
-                messageWindow?.Show("白色点を校正しています", this);
+                messageWindow?.Show("Calibrating the white point", this);
                 var c = serviceProvider.GetService<AppStore>().ColorimetryCondition;
                 await serviceProvider.GetService<Start>().ExecuteAsync(c);
                 messageWindow?.Close();
@@ -102,7 +102,7 @@ namespace CGLCMIV2App
             };
             btnStop.Click += async delegate
             {
-                if(MessageBox.Show("停止しますか？","",MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if(MessageBox.Show("Do you want to stop?", "",MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     await serviceProvider.GetService<Stop>().ExecuteAsync();
                     
@@ -115,7 +115,7 @@ namespace CGLCMIV2App
             };
             btnAbort.Click += async delegate
             {
-                if (MessageBox.Show("測定を中止しますか？", "", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("\r\nDo you want to cancel measurement?", "", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     btnAbort.IsEnabled = false;
                     //messageWindow = serviceProvider.GetService<IMessageWindow>();
@@ -135,10 +135,10 @@ namespace CGLCMIV2App
             {
                 txtRoomTemperature.Text = a.Temperature.ToString("F2");
             });
-            appStore.Subscribe<OpticalpowerChangedEvent>(a =>
-            {
-                txtOpticalpower.Text = a.Opticalpower.ToString("F2");
-            });
+            //appStore.Subscribe<OpticalpowerChangedEvent>(a =>
+            //{
+            //    txtOpticalpower.Text = a.Opticalpower.ToString("F2");
+            //});
             appStore.Subscribe<AppHardwareConnectedEvent>(_ =>
             {
                 Status.Background = Brushes.DarkGreen;
@@ -239,25 +239,25 @@ namespace CGLCMIV2App
 
                 if (a is AppHardwareConnectedFailureEvent)
                 {
-                    MessageBox.Show($"ハードウェア接続でエラーが発生しました。装置の電源および接続ケーブルの確認をしてください。\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An error occurred in the hardware connection. Check the power supply of the device and the connection cable.\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 if(a is AutoGradingFailureEvent)
                 {
-                    MessageBox.Show($"カラーグレーディング測定中にアプリケーションエラーが発生しました。\r\n「リセット」してください。\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An application error occurred during color grading measurement. \r\nPlease \"Reset\".\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 if (a is AutoColorMeasureFailureEvent)
                 {
-                    MessageBox.Show($"カラー測定中にアプリケーションエラーが発生しました。\r\n「リセット」してください。\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An application error occurred during color measurement. \r\nPlease \"Reset\".\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 if (a is AppAbortedFailureEvent)
                 {
-                    MessageBox.Show($"中止処理中にアプリケーションエラーが発生しました。\r\n「リセット」してください。\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An application error occurred during cancellation processing. \r\nPlease \"Reset\".\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                MessageBox.Show($"アプリケーションエラーが発生しました。\r\n「リセット」してください。\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An application error has occurred. \r\nPlease \"Reset\".\r\n{a.Message}", "", MessageBoxButton.OK, MessageBoxImage.Error);
 
             });
 
@@ -277,6 +277,14 @@ namespace CGLCMIV2App
                 }
             });
 
+            appStore.Subscribe<ScanWhitepointCompletedEvent>(async (a) =>
+            {
+                if (a.ReplacementTiming)
+                {
+                    MessageBox.Show(this, $"Please replace the white stage.", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            });
             ViewController.Instance.Add(ViewController.CONTENT_COLORGRADING, measureAutoPage);
             ViewController.Instance.Add(ViewController.CONTENT_COLORMEASURING, measurePage);
             ViewController.Instance.Add(ViewController.CONTENT_CALIBRATION, calibratoinPage);

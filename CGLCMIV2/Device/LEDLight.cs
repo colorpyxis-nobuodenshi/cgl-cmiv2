@@ -19,7 +19,8 @@ namespace CGLCMIV2.Device
 
         SerialPort _ser = new SerialPort();
         double _opticalPower = 0.0;
-        double _temperature = 0.0;
+        double _temperature1 = 0.0;
+        double _temperature2 = 0.0;
         object lockObject = new object();
 
         public void ChangeD65Value(int value)
@@ -69,8 +70,12 @@ namespace CGLCMIV2.Device
                 while (_ser.BytesToWrite > 0) ;
                 var res = _ser.ReadLine();
                 var value = res.Split(' ');
-                _temperature = double.Parse(value[0].Split(':')[1]);
-                _opticalPower = double.Parse(value[2].Split(':')[1]);
+                if (value != null)
+                {
+                    _temperature1 = double.Parse(value[0].Split(':')[1]);
+                    _temperature2 = double.Parse(value[1].Split(':')[1]);
+                    _opticalPower = double.Parse(value[2].Split(':')[1]);
+                }
             }
 
             Ready = true;
@@ -82,7 +87,7 @@ namespace CGLCMIV2.Device
 
         public double GetTemperature()
         {
-            return _temperature;
+            return _temperature1;
         }
 
         public void Start()

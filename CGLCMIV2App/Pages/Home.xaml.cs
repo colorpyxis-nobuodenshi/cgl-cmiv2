@@ -30,6 +30,11 @@ namespace CGLCMIV2App
             InitializeComponent();
 
             var appStore = serviceProvider.GetService<AppStore>();
+            txtVersion.Text = appStore.SystemVersion;
+            MenuMeasureAuto.IsEnabled = false;
+            MenuMeasureManual.IsEnabled = false;
+            MenuCalibrate.IsEnabled = false;
+            MenuConfiguration.IsEnabled = true;
             appStore.Subscribe<AppHardwareDisConnectedEvent>(_ => 
             {
                 MenuMeasureAuto.IsEnabled = false;

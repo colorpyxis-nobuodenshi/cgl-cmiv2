@@ -26,8 +26,6 @@ namespace CGLCMIV2.Device
         {
             Console.WriteLine("camera take picture.");
             return new XYZPixels(new ushort[1024 * 768 * 3], 1024, 768);
-            //var p = new ushort[2048 * 1536 * 3].Select(x => x = 450).ToArray();
-            //return new XYZPixels(p, 2048, 1536);
         }
     }
 
@@ -93,6 +91,16 @@ namespace CGLCMIV2.Device
         {
             throw new NotImplementedException();
         }
+
+        public void MoveReplacementPoint()
+        {
+            Console.WriteLine("autostage move replacement point.");
+        }
+
+        public void MoveMeasurePointOnSpectralon()
+        {
+            Console.WriteLine("autostage move measure point on spectralon.");
+        }
     }
 
     public class LEDControllerMock : ILEDLight
@@ -119,7 +127,7 @@ namespace CGLCMIV2.Device
         {
             Console.WriteLine($"ledlight get temperature.");
             var r = new Random();
-            return r.Next(20,30);
+            return r.Next(20, 30);
         }
         public void ReadStatus()
         {
